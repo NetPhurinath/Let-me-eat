@@ -9,11 +9,13 @@ We do NOT list the vulnerabilities here — finding them is the assignment.
 
 Run:  docker compose up   (then http://localhost:8080)
 """
+import csv
 import hashlib
 import hmac
+import io
+import json
 import os
 import sqlite3
-import subprocess
 
 import jwt  # PyJWT
 from flask import Flask, request, jsonify, render_template_string, redirect, make_response
@@ -194,15 +196,36 @@ def admin():
     return jsonify([dict(r) for r in rows])
 
 
+EXPORT_TYPES = {"txt": "text/plain", "csv": "text/csv", "json": "application/json"}
+
+
 @app.route("/export")
 def export():
-    if not current_user():
+    user = current_user()
+    if not user:
         return "auth required", 401
     fmt = request.args.get("fmt", "txt")
-    # convenience "export" feature
-    out = subprocess.run("echo exporting notes as " + fmt, shell=True,
-                         capture_output=True, text=True)
-    return "<pre>%s</pre>" % out.stdout
+    if fmt not in EXPORT_TYPES:
+        return "unsupported format (use txt, csv or json)", 400
+    # convenience "export" feature — built in Python, no shell involved
+    con = db()
+    rows = [dict(r) for r in con.execute(
+        "SELECT id,title,body FROM notes WHERE owner = ?", (user,)).fetchall()]
+    con.close()
+    if fmt == "json":
+        out = json.dumps(rows)
+    elif fmt == "csv":
+        buf = io.StringIO()
+        w = csv.DictWriter(buf, fieldnames=["id", "title", "body"])
+        w.writeheader()
+        w.writerows(rows)
+        out = buf.getvalue()
+    else:
+        out = "".join("#%d %s: %s\n" % (r["id"], r["title"], r["body"]) for r in rows)
+    resp = make_response(out)
+    resp.headers["Content-Type"] = EXPORT_TYPES[fmt] + "; charset=utf-8"
+    resp.headers["Content-Disposition"] = "attachment; filename=notes.%s" % fmt
+    return resp
 
 
 if __name__ == "__main__":
