@@ -1,0 +1,173 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="900" viewBox="0 0 1500 900" font-family="Arial, Helvetica, sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#333"/>
+    </marker>
+    <style>
+      .ent  { fill:#eef2ff; stroke:#3b4a8a; stroke-width:2; }
+      .proc { fill:#ecfdf5; stroke:#157347; stroke-width:2; }
+      .store{ fill:#fff7e6; stroke:none; }
+      .sline{ stroke:#a86400; stroke-width:2; fill:none; }
+      .tb   { fill:none; stroke:#d62828; stroke-width:2.5; stroke-dasharray:10 6; }
+      .tbl  { fill:#d62828; font-size:13px; font-weight:bold; }
+      .flow { stroke:#333; stroke-width:1.6; fill:none; marker-end:url(#arr); }
+      .bi   { marker-start:url(#arr); }
+      .fl   { font-size:11.5px; fill:#222; }
+      .t    { font-size:15px; font-weight:bold; fill:#111; text-anchor:middle; }
+      .s    { font-size:11.5px; fill:#333; text-anchor:middle; }
+    </style>
+  </defs>
+
+  <rect width="1500" height="900" fill="#ffffff"/>
+  <text x="30" y="36" font-size="22" font-weight="bold" fill="#111">NoteVault — Level-1 Data-Flow Diagram</text>
+  <text x="30" y="58" font-size="13" fill="#555">Baseline (pre-remediation) build of starter-app/app.py</text>
+
+  <!-- TB1: container / network boundary -->
+  <rect class="tb" x="250" y="150" width="810" height="725" rx="6"/>
+  <text class="tbl" x="262" y="172">TB1 — Internet / browser ↔ NoteVault container (HTTP :8080)</text>
+
+  <!-- External entities -->
+  <rect class="ent" x="30" y="200" width="160" height="510" rx="4"/>
+  <text class="t" x="110" y="440">E1</text>
+  <text class="t" x="110" y="462">User</text>
+  <text class="s" x="110" y="482">browser / API client</text>
+  <text class="s" x="110" y="498">(alice, any visitor)</text>
+
+  <rect class="ent" x="30" y="765" width="160" height="90" rx="4"/>
+  <text class="t" x="110" y="802">E2 Admin user</text>
+  <text class="s" x="110" y="822">browser (role = admin)</text>
+
+  <rect class="ent" x="600" y="70" width="460" height="55" rx="4"/>
+  <text class="t" x="830" y="93">E3 Developer / build pipeline</text>
+  <text class="s" x="830" y="112">Docker Hub base image python:3.12 · PyPI packages · docker-compose env</text>
+
+  <!-- Processes -->
+  <circle class="proc" cx="440" cy="250" r="50"/>
+  <text class="t" x="440" y="246">P1 Auth</text>
+  <text class="s" x="440" y="264">register · login</text>
+  <text class="s" x="440" y="278">logout · JWT</text>
+
+  <circle class="proc" cx="440" cy="390" r="50"/>
+  <text class="t" x="440" y="386">P2 Notes</text>
+  <text class="s" x="440" y="404">/ · /notes</text>
+  <text class="s" x="440" y="418">/api/notes/&lt;id&gt;</text>
+
+  <circle class="proc" cx="440" cy="530" r="50"/>
+  <text class="t" x="440" y="528">P3 Search</text>
+  <text class="s" x="440" y="546">/search?q=</text>
+
+  <circle class="proc" cx="440" cy="670" r="50"/>
+  <text class="t" x="440" y="668">P5 Export</text>
+  <text class="s" x="440" y="686">/export?fmt=</text>
+
+  <circle class="proc" cx="440" cy="810" r="50"/>
+  <text class="t" x="440" y="808">P4 Admin</text>
+  <text class="s" x="440" y="826">/admin</text>
+
+  <!-- D3 config / secrets -->
+  <rect class="store" x="720" y="175" width="220" height="40"/>
+  <path class="sline" d="M940,175 H720 V215 H940"/>
+  <line class="sline" x1="760" y1="175" x2="760" y2="215"/>
+  <text x="740" y="200" font-size="14" font-weight="bold" fill="#111" text-anchor="middle">D3</text>
+  <text x="768" y="193" font-size="12.5" font-weight="bold" fill="#111">Config &amp; secrets</text>
+  <text x="768" y="208" font-size="10.5" fill="#333">SECRET, APP_SECRET, TEAM_ID/SALT</text>
+
+  <!-- TB3: data at rest -->
+  <rect class="tb" x="700" y="235" width="270" height="285" rx="6"/>
+  <text class="tbl" x="712" y="255">TB3 — data at rest</text>
+  <text x="712" y="271" font-size="11" fill="#d62828">SQLite file /tmp/notevault.db</text>
+
+  <rect class="store" x="720" y="285" width="220" height="40"/>
+  <path class="sline" d="M940,285 H720 V325 H940"/>
+  <line class="sline" x1="760" y1="285" x2="760" y2="325"/>
+  <text x="740" y="310" font-size="14" font-weight="bold" fill="#111" text-anchor="middle">D1</text>
+  <text x="768" y="303" font-size="12.5" font-weight="bold" fill="#111">users</text>
+  <text x="768" y="318" font-size="10.5" fill="#333">username, MD5 password, role</text>
+
+  <rect class="store" x="720" y="435" width="220" height="40"/>
+  <path class="sline" d="M940,435 H720 V475 H940"/>
+  <line class="sline" x1="760" y1="435" x2="760" y2="475"/>
+  <text x="740" y="460" font-size="14" font-weight="bold" fill="#111" text-anchor="middle">D2</text>
+  <text x="768" y="453" font-size="12.5" font-weight="bold" fill="#111">notes</text>
+  <text x="768" y="468" font-size="10.5" fill="#333">owner, title, body</text>
+
+  <!-- TB2: OS shell -->
+  <rect class="tb" x="700" y="610" width="270" height="120" rx="6"/>
+  <text class="tbl" x="712" y="630">TB2 — app ↔ OS shell</text>
+  <rect class="ent" x="725" y="642" width="220" height="62" rx="4"/>
+  <text class="t" x="835" y="668">OS shell (/bin/sh)</text>
+  <text class="s" x="835" y="688">subprocess.run(shell=True)</text>
+
+  <!-- Flows: E1 <-> processes (request above, response below) -->
+  <line class="flow bi" x1="192" y1="250" x2="388" y2="250"/>
+  <text class="fl" x="258" y="243">1 creds (+ role)</text>
+  <text class="fl" x="258" y="265">2 session JWT</text>
+
+  <line class="flow bi" x1="192" y1="390" x2="388" y2="390"/>
+  <text class="fl" x="258" y="383">3 JWT + note / id</text>
+  <text class="fl" x="258" y="405">4 notes HTML / JSON</text>
+
+  <line class="flow bi" x1="192" y1="530" x2="388" y2="530"/>
+  <text class="fl" x="258" y="523">5 JWT + term q</text>
+  <text class="fl" x="258" y="545">6 results HTML</text>
+
+  <line class="flow bi" x1="192" y1="670" x2="388" y2="670"/>
+  <text class="fl" x="258" y="663">7 JWT + fmt</text>
+  <text class="fl" x="258" y="685">8 export output</text>
+
+  <line class="flow bi" x1="192" y1="810" x2="388" y2="810"/>
+  <text class="fl" x="258" y="803">9 admin JWT</text>
+  <text class="fl" x="258" y="825">10 users JSON</text>
+
+  <!-- Internal flows -->
+  <line class="flow" x1="718" y1="200" x2="486" y2="232"/>
+  <text class="fl" x="560" y="204">12 JWT SECRET</text>
+
+  <line class="flow bi" x1="490" y1="258" x2="718" y2="300"/>
+  <text class="fl" x="545" y="312">11 user row, hash, role</text>
+
+  <line class="flow bi" x1="490" y1="395" x2="718" y2="450"/>
+  <text class="fl" x="560" y="410">13 note rows</text>
+
+  <line class="flow bi" x1="490" y1="525" x2="718" y2="465"/>
+  <text class="fl" x="545" y="520">14 LIKE query / rows</text>
+
+  <line class="flow" x1="492" y1="663" x2="723" y2="663"/>
+  <text class="fl" x="530" y="656">15 command string</text>
+  <line class="flow" x1="723" y1="681" x2="492" y2="681"/>
+  <text class="fl" x="530" y="697">16 stdout</text>
+
+  <path class="flow bi" d="M492,810 H1010 V305 H942"/>
+  <text class="fl" x="1016" y="560" transform="rotate(90 1016 560)">17 all users + hashes, role check</text>
+
+  <!-- TB4 crossing: build -> runtime -->
+  <line class="flow" x1="830" y1="127" x2="830" y2="173"/>
+  <text class="fl" x="838" y="146">18 image, deps, env</text>
+  <text class="tbl" x="1070" y="155">TB4 — build / supply chain → runtime</text>
+  <line x1="1060" y1="150" x2="1070" y2="150" stroke="#d62828" stroke-width="2.5"/>
+
+  <!-- Legend -->
+  <g transform="translate(1100,200)">
+    <text x="0" y="0" font-size="15" font-weight="bold" fill="#111">Legend</text>
+    <rect class="ent" x="0" y="18" width="46" height="28" rx="3"/>
+    <text x="60" y="37" font-size="12.5" fill="#222">External entity / external process</text>
+    <circle class="proc" cx="23" cy="80" r="18"/>
+    <text x="60" y="85" font-size="12.5" fill="#222">Process (Flask route group)</text>
+    <rect class="store" x="0" y="116" width="46" height="26"/>
+    <path class="sline" d="M46,116 H0 V142 H46"/>
+    <text x="60" y="134" font-size="12.5" fill="#222">Data store</text>
+    <line class="flow" x1="0" y1="175" x2="46" y2="175"/>
+    <text x="60" y="179" font-size="12.5" fill="#222">Data flow (numbered)</text>
+    <line class="flow bi" x1="0" y1="205" x2="46" y2="205"/>
+    <text x="60" y="209" font-size="12.5" fill="#222">Request / response pair</text>
+    <rect class="tb" x="0" y="225" width="46" height="26" rx="3"/>
+    <text x="60" y="243" font-size="12.5" fill="#222">Trust boundary</text>
+
+    <text x="0" y="300" font-size="12" fill="#444">All requests carry the session JWT</text>
+    <text x="0" y="316" font-size="12" fill="#444">cookie, verified by P1 against D3.</text>
+    <text x="0" y="340" font-size="12" fill="#444">Flows 1, 3, 5, 7, 9 cross TB1.</text>
+    <text x="0" y="356" font-size="12" fill="#444">Flows 11, 13, 14, 17 cross TB3.</text>
+    <text x="0" y="372" font-size="12" fill="#444">Flows 15, 16 cross TB2.</text>
+    <text x="0" y="388" font-size="12" fill="#444">Flow 18 crosses TB4.</text>
+  </g>
+</svg>
