@@ -11,6 +11,30 @@ voice. Every video follows the same shape, about 2–3 minutes:
 
 All targets are local containers on your own machine (course ethics policy: never against anything else).
 
+## Recording status
+
+`bash docs/demo.sh list` shows the same status.
+
+| Finding | Status |
+|---|---|
+| F-01, F-02 SQL injection | Recorded — Drive `01 SQL Injection` |
+| F-05, F-06 JWT `alg: none`, hard-coded secret | Recorded — Drive `02 Broken JWT` |
+| F-04 Command injection | Recorded — Drive `03 Command Injection` |
+| F-10 Stored XSS | Recorded — Drive `04 Stored XSS` |
+| F-09 IDOR | Recorded — Drive `05 IDOR` |
+| F-11 MD5 password hashes | Recorded — Drive `06 Weak Hash` |
+| F-03 Template injection | **To record** |
+| F-07 Client chooses own role | **To record** |
+| F-08 Duplicate username takeover | **To record** |
+| F-12 Debugger enabled | **To record** |
+| F-13 Cookie flags / expiry / logout CSRF | **To record** |
+| F-14 Admin exposes hashes | **To record** |
+| F-15 No brute-force limit | **To record** |
+| F-16 Vulnerable dependencies | **To record** |
+| F-17 Container runs as root | **To record** |
+| F-18 Missing input validation | **To record** |
+| F-19 No security logging | **To record** |
+
 ## One-time setup (Git Bash, repo root)
 
 ```bash

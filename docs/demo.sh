@@ -152,8 +152,13 @@ declare -A TITLE=([01]="SQL injection in login" [02]="SQL injection in search" [
   [14]="Admin exposes hashes" [15]="No brute-force limit" [16]="Vulnerable dependencies"
   [17]="Container runs as root" [18]="Missing input validation" [19]="No security logging")
 
+# Videos the team has already recorded (Google Drive folder names).
+declare -A RECORDED=([01]="01 SQL Injection" [02]="01 SQL Injection" [05]="02 Broken JWT" [06]="02 Broken JWT"
+                     [04]="03 Command Injection" [10]="04 Stored XSS" [09]="05 IDOR" [11]="06 Weak Hash")
+
 demo() {
   local n=${1#F-}; n=${n#f-}; n=${n#F}; n=$(printf '%02d' "$((10#$n))")
+  [ -n "${RECORDED[$n]}" ] && echo "${Y}Note: F-$n is already recorded (Drive folder \"${RECORDED[$n]}\").${N}"
   [ -n "${TITLE[$n]}" ] || { echo "unknown finding $1"; exit 1; }
   local f="f$n"
   echo "${Y}Resetting both apps to fresh seed data...${N}"; reset; clear
@@ -173,7 +178,9 @@ demo() {
 case "$1" in
   setup) setup ;;
   stop)  docker rm -f nvbase >/dev/null 2>&1; $COMPOSE down ;;
-  list|"") for k in $(printf '%s\n' "${!TITLE[@]}" | sort); do echo "F-$k  ${TITLE[$k]}"; done
+  list|"") for k in $(printf '%s\n' "${!TITLE[@]}" | sort); do
+             if [ -n "${RECORDED[$k]}" ]; then echo "F-$k  ${TITLE[$k]}  — recorded (${RECORDED[$k]})"
+             else echo "${G}F-$k  ${TITLE[$k]}  — TO RECORD${N}"; fi; done
            echo; echo "usage: bash docs/demo.sh setup | F-01 … F-19 | stop" ;;
   *) demo "$1" ;;
 esac
