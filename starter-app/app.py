@@ -194,10 +194,13 @@ def add_note():
 
 @app.route("/api/notes/<int:nid>")
 def api_note(nid):
-    if not current_user():
+    user = current_user()
+    if not user:
         return jsonify(error="auth required"), 401
     con = db()
-    r = con.execute("SELECT id,owner,title,body FROM notes WHERE id = ?", (nid,)).fetchone()
+    # scoped to the caller: someone else's note is indistinguishable from a missing one
+    r = con.execute("SELECT id,owner,title,body FROM notes WHERE id = ? AND owner = ?",
+                    (nid, user)).fetchone()
     con.close()
     return (jsonify(dict(r)) if r else (jsonify(error="not found"), 404))
 
@@ -221,7 +224,7 @@ def admin():
     if not user or role_of(user) != "admin":
         return "forbidden", 403
     con = db()
-    rows = con.execute("SELECT id,username,password,role FROM users").fetchall()
+    rows = con.execute("SELECT id,username,role FROM users").fetchall()
     con.close()
     return jsonify([dict(r) for r in rows])
 
