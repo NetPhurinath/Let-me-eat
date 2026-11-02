@@ -40,7 +40,8 @@ PAGE = """
   {% if is_admin %}· <a href="/admin">admin</a>{% endif %}</p>
 <form method=post action="/notes"><input name=title placeholder=title>
   <input name=body placeholder=note><button>Add note</button></form>
-<h3>Your notes</h3>{{ notes_html|safe }}
+<h3>Your notes</h3>
+{% for n in notes %}<li>#{{ n.id }} <b>{{ n.title }}</b>: {{ n.body }}</li>{% endfor %}
 <form action="/search"><input name=q placeholder="search notes"><button>Search</button></form>
 {% else %}
 <form method=post action="/login">user <input name=username> pass <input name=password type=password>
@@ -48,6 +49,10 @@ PAGE = """
 <form method=post action="/register">new: <input name=username> <input name=password type=password>
   <button>Register</button></form>
 {% endif %}
+"""
+
+SEARCH_PAGE = """
+<a href=/>back</a><ul>{% for r in rows %}<li>{{ r.title }}: {{ r.body }}</li>{% endfor %}</ul>
 """
 
 
@@ -96,15 +101,13 @@ def role_of(username):
 @app.route("/")
 def home():
     user = current_user()
-    notes_html = ""
+    notes = []
     if user:
         con = db()
-        rows = con.execute("SELECT id,title,body FROM notes WHERE owner = ?", (user,)).fetchall()
+        notes = con.execute("SELECT id,title,body FROM notes WHERE owner = ?", (user,)).fetchall()
         con.close()
-        notes_html = "".join(
-            "<li>#%d <b>%s</b>: %s</li>" % (r["id"], r["title"], r["body"]) for r in rows)
     return render_template_string(PAGE, user=user, is_admin=(user and role_of(user) == "admin"),
-                                  notes_html=notes_html)
+                                  notes=notes)
 
 
 @app.route("/register", methods=["POST"])
@@ -177,8 +180,7 @@ def search():
     rows = con.execute("SELECT id,title,body FROM notes WHERE owner = ? AND body LIKE ?",
                        (user, "%" + term + "%")).fetchall()
     con.close()
-    return render_template_string("<a href=/>back</a><ul>" +
-        "".join("<li>%s: %s</li>" % (r["title"], r["body"]) for r in rows) + "</ul>")
+    return render_template_string(SEARCH_PAGE, rows=rows)
 
 
 @app.route("/admin")
