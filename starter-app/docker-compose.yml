@@ -9,6 +9,9 @@ services:
       # flags used in the weekly labs. TEAM_SALT stays instructor-side in a real cohort.
       TEAM_ID: "Let me eat"
       TEAM_SALT: ${TEAM_SALT:-notevault-anti-copy-dev-salt}
+      # Session-signing key, taken from your shell/.env — never commit a real value.
+      # If unset, the app generates a random key at startup.
+      APP_SECRET: ${APP_SECRET:-}
     # For quick iteration you can mount the source:
     # volumes:
     #   - ./:/app

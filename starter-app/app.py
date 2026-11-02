@@ -10,11 +10,13 @@ We do NOT list the vulnerabilities here — finding them is the assignment.
 Run:  docker compose up   (then http://localhost:8080)
 """
 import csv
+import datetime
 import hashlib
 import hmac
 import io
 import json
 import os
+import secrets
 import sqlite3
 
 import jwt  # PyJWT
@@ -22,7 +24,11 @@ from flask import Flask, request, jsonify, render_template_string, redirect, mak
 
 app = Flask(__name__)
 DB = "/tmp/notevault.db"
-SECRET = "notevault-dev-secret"  # used to sign session tokens
+# Key used to sign session tokens. Supplied at runtime (APP_SECRET); without it a random
+# per-process key is used, so sessions simply don't survive a restart.
+SECRET = os.environ.get("APP_SECRET") or secrets.token_hex(32)
+SESSION_TTL = datetime.timedelta(hours=1)
+COOKIE_SECURE = os.environ.get("COOKIE_SECURE") == "1"  # set to 1 when served over HTTPS
 
 # Anti-copying: every team's build is seeded with a marker derived from their own TEAM_ID, so
 # any evidence a team submits (SQLi dump, IDOR response, admin-panel screenshot) that shows the
@@ -38,8 +44,9 @@ def team_marker():
 PAGE = """
 <!doctype html><title>NoteVault</title>
 <h1>NoteVault</h1>
-{% if user %}<p>Signed in as <b>{{ user }}</b> · <a href="/logout">logout</a>
+{% if user %}<p>Signed in as <b>{{ user }}</b>
   {% if is_admin %}· <a href="/admin">admin</a>{% endif %}</p>
+<form method=post action="/logout"><button>Logout</button></form>
 <form method=post action="/notes"><input name=title placeholder=title>
   <input name=body placeholder=note><button>Add note</button></form>
 <h3>Your notes</h3>
@@ -87,7 +94,7 @@ def current_user():
     if not tok:
         return None
     try:
-        data = jwt.decode(tok, SECRET, algorithms=["HS256", "none"])
+        data = jwt.decode(tok, SECRET, algorithms=["HS256"])
         return data.get("sub")
     except Exception:
         return None
@@ -135,13 +142,15 @@ def login():
     if not row or not hmac.compare_digest(
             row["password"], hashlib.md5((password or "").encode()).hexdigest()):
         return "login failed", 401
-    tok = jwt.encode({"sub": username}, SECRET, algorithm="HS256")
+    tok = jwt.encode({"sub": username, "exp": datetime.datetime.now(datetime.timezone.utc) + SESSION_TTL},
+                     SECRET, algorithm="HS256")
     resp = make_response(redirect("/"))
-    resp.set_cookie("session", tok)
+    resp.set_cookie("session", tok, max_age=int(SESSION_TTL.total_seconds()),
+                    httponly=True, samesite="Lax", secure=COOKIE_SECURE)
     return resp
 
 
-@app.route("/logout")
+@app.route("/logout", methods=["POST"])
 def logout():
     resp = make_response(redirect("/"))
     resp.delete_cookie("session")
