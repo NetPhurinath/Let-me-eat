@@ -16,11 +16,13 @@ import hmac
 import io
 import json
 import os
+import re
 import secrets
 import sqlite3
 
 import jwt  # PyJWT
 from flask import Flask, request, jsonify, render_template_string, redirect, make_response
+from werkzeug.security import check_password_hash, generate_password_hash
 
 app = Flask(__name__)
 DB = "/tmp/notevault.db"
@@ -29,6 +31,10 @@ DB = "/tmp/notevault.db"
 SECRET = os.environ.get("APP_SECRET") or secrets.token_hex(32)
 SESSION_TTL = datetime.timedelta(hours=1)
 COOKIE_SECURE = os.environ.get("COOKIE_SECURE") == "1"  # set to 1 when served over HTTPS
+
+USERNAME_RE = re.compile(r"[A-Za-z0-9._-]{1,32}")
+MIN_PASSWORD = 8
+DUMMY_HASH = generate_password_hash(secrets.token_hex(16))
 
 # Anti-copying: every team's build is seeded with a marker derived from their own TEAM_ID, so
 # any evidence a team submits (SQLi dump, IDOR response, admin-panel screenshot) that shows the
@@ -75,12 +81,12 @@ def seed():
     con = db()
     con.executescript(
         "DROP TABLE IF EXISTS users; DROP TABLE IF EXISTS notes;"
-        "CREATE TABLE users (id INTEGER PRIMARY KEY, username TEXT, password TEXT, role TEXT);"
+        "CREATE TABLE users (id INTEGER PRIMARY KEY, username TEXT NOT NULL UNIQUE, password TEXT, role TEXT);"
         "CREATE TABLE notes (id INTEGER PRIMARY KEY, owner TEXT, title TEXT, body TEXT);"
     )
     con.executemany("INSERT INTO users (username, password, role) VALUES (?,?,?)",
-                    [("alice", hashlib.md5(b"alicepw").hexdigest(), "user"),
-                     ("admin", hashlib.md5(b"admin123").hexdigest(), "admin")])
+                    [("alice", generate_password_hash("alicepw"), "user"),
+                     ("admin", generate_password_hash("admin123"), "admin")])
     con.executemany("INSERT INTO notes (owner, title, body) VALUES (?,?,?)",
                     [("alice", "groceries", "milk, eggs"),
                      ("admin", "infra", "prod db password is hunter2"),
@@ -119,28 +125,43 @@ def home():
                                   notes=notes)
 
 
+def credentials():
+    """Username/password from a form or JSON body, as strings ('' if missing)."""
+    body = request.get_json(silent=True) or {}
+    username = request.form.get("username") or body.get("username") or ""
+    password = request.form.get("password") or body.get("password") or ""
+    return (username if isinstance(username, str) else "",
+            password if isinstance(password, str) else "")
+
+
 @app.route("/register", methods=["POST"])
 def register():
-    username = request.form.get("username") or (request.json or {}).get("username")
-    password = request.form.get("password") or (request.json or {}).get("password")
-    role = request.form.get("role") or (request.json or {}).get("role") or "user"
+    username, password = credentials()
+    if not USERNAME_RE.fullmatch(username):
+        return "username must be 1-32 letters, digits, '.', '_' or '-'", 400
+    if not MIN_PASSWORD <= len(password) <= 128:
+        return "password must be %d-128 characters" % MIN_PASSWORD, 400
     con = db()
-    con.execute("INSERT INTO users (username, password, role) VALUES (?,?,?)",
-                (username, hashlib.md5(password.encode()).hexdigest(), role))
-    con.commit()
-    con.close()
+    try:
+        # role is always "user"; admins are provisioned server-side, never by the client
+        con.execute("INSERT INTO users (username, password, role) VALUES (?,?,?)",
+                    (username, generate_password_hash(password), "user"))
+        con.commit()
+    except sqlite3.IntegrityError:
+        return "username already taken", 409
+    finally:
+        con.close()
     return redirect("/")
 
 
 @app.route("/login", methods=["POST"])
 def login():
-    username = request.form.get("username") or (request.json or {}).get("username")
-    password = request.form.get("password") or (request.json or {}).get("password")
+    username, password = credentials()
     con = db()
     row = con.execute("SELECT * FROM users WHERE username = ?", (username,)).fetchone()
     con.close()
-    if not row or not hmac.compare_digest(
-            row["password"], hashlib.md5((password or "").encode()).hexdigest()):
+    # check a dummy hash for unknown users so response time doesn't reveal which names exist
+    if not check_password_hash(row["password"] if row else DUMMY_HASH, password) or not row:
         return "login failed", 401
     tok = jwt.encode({"sub": username, "exp": datetime.datetime.now(datetime.timezone.utc) + SESSION_TTL},
                      SECRET, algorithm="HS256")
