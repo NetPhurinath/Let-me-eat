@@ -59,7 +59,7 @@ jobs:
         run: cosign attach sbom --sbom sbom-container.cdx.json "$IMAGE_DIGEST"
 
       - name: Attest build provenance
-        uses: actions/attest-build-provenance@v2
+        uses: actions/attest-build-provenance@v4
         with:
           subject-name: ${{ env.IMAGE }}
           subject-digest: ${{ steps.image.outputs.digest }}
