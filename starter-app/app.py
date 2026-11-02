@@ -288,4 +288,5 @@ def export():
 
 if __name__ == "__main__":
     seed()
-    app.run(host="0.0.0.0", port=8080, debug=DEBUG)
+    # loopback by default; the container sets HOST=0.0.0.0 so Docker's port mapping can reach it
+    app.run(host=os.environ.get("HOST", "127.0.0.1"), port=8080, debug=DEBUG)
