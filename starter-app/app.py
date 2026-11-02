@@ -15,10 +15,12 @@ import hashlib
 import hmac
 import io
 import json
+import logging
 import os
 import re
 import secrets
 import sqlite3
+import time
 
 import jwt  # PyJWT
 from flask import Flask, request, jsonify, render_template_string, redirect, make_response
@@ -35,6 +37,17 @@ COOKIE_SECURE = os.environ.get("COOKIE_SECURE") == "1"  # set to 1 when served o
 USERNAME_RE = re.compile(r"[A-Za-z0-9._-]{1,32}")
 MIN_PASSWORD = 8
 DUMMY_HASH = generate_password_hash(secrets.token_hex(16))
+
+# Interactive debugger stays off unless explicitly enabled for local development.
+DEBUG = os.environ.get("FLASK_DEBUG") == "1"
+
+# Simple in-memory brute-force limit per (client IP, username).
+MAX_FAILED_LOGINS = 5
+LOCKOUT_WINDOW = 15 * 60  # seconds
+FAILED_LOGINS = {}
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
+log = logging.getLogger("notevault")
 
 # Anti-copying: every team's build is seeded with a marker derived from their own TEAM_ID, so
 # any evidence a team submits (SQLi dump, IDOR response, admin-panel screenshot) that shows the
@@ -157,12 +170,22 @@ def register():
 @app.route("/login", methods=["POST"])
 def login():
     username, password = credentials()
+    key = (request.remote_addr, username)
+    now = time.monotonic()
+    recent = [t for t in FAILED_LOGINS.get(key, []) if now - t < LOCKOUT_WINDOW]
+    if len(recent) >= MAX_FAILED_LOGINS:
+        log.warning("login locked out for %r from %s", username, request.remote_addr)
+        return "too many failed attempts, try again later", 429
     con = db()
     row = con.execute("SELECT * FROM users WHERE username = ?", (username,)).fetchone()
     con.close()
     # check a dummy hash for unknown users so response time doesn't reveal which names exist
     if not check_password_hash(row["password"] if row else DUMMY_HASH, password) or not row:
+        FAILED_LOGINS[key] = recent + [now]
+        log.warning("login failed for %r from %s", username, request.remote_addr)
         return "login failed", 401
+    FAILED_LOGINS.pop(key, None)
+    log.info("login ok for %r from %s", username, request.remote_addr)
     tok = jwt.encode({"sub": username, "exp": datetime.datetime.now(datetime.timezone.utc) + SESSION_TTL},
                      SECRET, algorithm="HS256")
     resp = make_response(redirect("/"))
@@ -222,7 +245,9 @@ def search():
 def admin():
     user = current_user()
     if not user or role_of(user) != "admin":
+        log.warning("admin access denied for %r from %s", user, request.remote_addr)
         return "forbidden", 403
+    log.info("admin user list viewed by %r from %s", user, request.remote_addr)
     con = db()
     rows = con.execute("SELECT id,username,role FROM users").fetchall()
     con.close()
@@ -263,4 +288,4 @@ def export():
 
 if __name__ == "__main__":
     seed()
-    app.run(host="0.0.0.0", port=8080, debug=True)
+    app.run(host="0.0.0.0", port=8080, debug=DEBUG)
