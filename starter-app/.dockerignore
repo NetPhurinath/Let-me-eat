@@ -1,3 +1,4 @@
 *
 !app.py
-!requirements.txt
+!requirements.in
+!requirements.lock

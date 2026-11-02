@@ -1,0 +1,81 @@
+name: Release signed image
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+  packages: write
+  attestations: write
+
+env:
+  IMAGE: ghcr.io/${{ github.repository }}
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push image
+        id: image
+        uses: docker/build-push-action@v6
+        with:
+          context: starter-app
+          push: true
+          tags: ${{ env.IMAGE }}:${{ github.ref_name }}
+          provenance: true
+
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@v3
+
+      - name: Sign image digest
+        env:
+          IMAGE_DIGEST: ${{ env.IMAGE }}@${{ steps.image.outputs.digest }}
+        run: cosign sign --yes "$IMAGE_DIGEST"
+
+      - name: Generate container SBOM
+        uses: anchore/sbom-action@v0
+        with:
+          image: ${{ env.IMAGE }}@${{ steps.image.outputs.digest }}
+          format: cyclonedx-json
+          output-file: sbom-container.cdx.json
+
+      - name: Attach SBOM
+        env:
+          IMAGE_DIGEST: ${{ env.IMAGE }}@${{ steps.image.outputs.digest }}
+        run: cosign attach sbom --sbom sbom-container.cdx.json "$IMAGE_DIGEST"
+
+      - name: Attest build provenance
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-name: ${{ env.IMAGE }}
+          subject-digest: ${{ steps.image.outputs.digest }}
+          push-to-registry: true
+
+      - name: Verify signature
+        env:
+          IMAGE_DIGEST: ${{ env.IMAGE }}@${{ steps.image.outputs.digest }}
+        run: |
+          cosign verify "$IMAGE_DIGEST" \
+            --certificate-identity-regexp="^https://github.com/${{ github.repository }}/.github/workflows/" \
+            --certificate-oidc-issuer="https://token.actions.githubusercontent.com"
+
+      - name: Upload release SBOM
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom-${{ github.ref_name }}
+          if-no-files-found: error
+          path: sbom-container.cdx.json

@@ -20,7 +20,9 @@ export TEAM_ID=<your-team-name>   # seeds a traceability marker — see below
 docker compose up          # http://localhost:8080
 # seeded logins:  alice / alicepw   ·   admin / admin123
 ```
-Local (no Docker): `TEAM_ID=<your-team-name> python app.py` (after `pip install -r requirements.txt`)
+Local (no Docker): `TEAM_ID=<your-team-name> python app.py` (after
+`pip install --require-hashes -r requirements.lock`; `requirements.txt` remains a
+compatibility wrapper)
 
 > **Set `TEAM_ID` before your first build.** It seeds a small marker derived from your team
 > name into the app's own data — the same idea as the per-student flags in the weekly labs,
@@ -47,3 +49,27 @@ from the weekly labs (Burp, sqlmap, Trivy, Semgrep, Gitleaks, Cosign).
 
 > Teams may propose their own app instead, with instructor approval — but it must
 > offer comparable depth across the same categories.
+
+## Supply-chain controls
+
+The release build uses `requirements.in` for direct dependencies and the hashed,
+generated `requirements.lock` for installation. The Dockerfile installs only from
+that lock file and the base image is pinned by digest. The security workflow at
+`.github/workflows/security.yml` runs tests, dependency auditing, Semgrep, Gitleaks,
+Trivy, and generates CycloneDX SBOMs for both Python dependencies and the container.
+High and critical Trivy findings fail the workflow.
+
+For a release, push a `v*.*.*` tag. The repository's release workflow builds the
+image, generates provenance, attaches a CycloneDX SBOM, signs the immutable image
+digest with keyless Cosign, and verifies the signature. The equivalent manual
+procedure is:
+
+```bash
+docker build -t ghcr.io/ORG/notevault:$GITHUB_SHA starter-app
+docker push ghcr.io/ORG/notevault:$GITHUB_SHA
+cosign sign --yes ghcr.io/ORG/notevault@sha256:IMAGE_DIGEST
+cosign verify ghcr.io/ORG/notevault@sha256:IMAGE_DIGEST
+```
+
+Verify the signature before deployment. Never put `APP_SECRET`, registry credentials,
+or Cosign private keys in the repository or image; use runtime secrets and GitHub OIDC.

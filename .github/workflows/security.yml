@@ -1,0 +1,87 @@
+name: Security and Supply Chain
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: starter-app
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install application and audit tools
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install --require-hashes -r requirements.lock
+          python -m pip install pip-audit cyclonedx-bom pytest
+
+      - name: Run tests
+        run: python -m pytest -q
+
+      - name: Audit Python dependencies
+        run: python -m pip_audit -r requirements.lock
+
+      - name: Generate Python SBOM
+        run: |
+          cyclonedx-py requirements \
+            --input-requirements requirements.lock \
+            --output-format json \
+            --output-file sbom-python.cdx.json
+
+      - name: Run Semgrep
+        working-directory: .
+        run: |
+          python -m pip install semgrep
+          semgrep scan --config p/python --config p/flask --config p/dockerfile \
+            --error starter-app
+
+      - name: Scan repository for secrets
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build container
+        working-directory: .
+        run: docker build --pull --tag notevault:${{ github.sha }} starter-app
+
+      - name: Scan container
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: notevault:${{ github.sha }}
+          severity: HIGH,CRITICAL
+          ignore-unfixed: true
+          exit-code: "1"
+          format: table
+
+      - name: Generate container SBOM
+        uses: anchore/sbom-action@v0
+        with:
+          image: notevault:${{ github.sha }}
+          format: cyclonedx-json
+          output-file: sbom-container.cdx.json
+
+      - name: Upload SBOMs
+        uses: actions/upload-artifact@v4
+        with:
+          name: sboms-${{ github.sha }}
+          if-no-files-found: error
+          path: |
+            starter-app/sbom-python.cdx.json
+            sbom-container.cdx.json

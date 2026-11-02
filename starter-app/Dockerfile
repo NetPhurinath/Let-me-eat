@@ -9,8 +9,8 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     HOST=0.0.0.0
 
 WORKDIR /app
-COPY requirements.txt .
-RUN pip install -r requirements.txt \
+COPY requirements.lock .
+RUN python -m pip install --no-cache-dir --require-hashes -r requirements.lock \
  && useradd --system --uid 10001 --no-create-home --shell /usr/sbin/nologin notevault
 
 COPY app.py .
