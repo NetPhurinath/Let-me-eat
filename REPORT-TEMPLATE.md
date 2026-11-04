@@ -7,23 +7,43 @@
 
 | Field | Value |
 |---|---|
-| Team name | |
-| Members (name + ID) | |
-| Target application | |
-| Repository URL | |
-| Date | |
+| Team name | Let me eat |
+| Members (name + ID) | Gritthaphat Intaraprasit (6631503001) · Supichaya Rabiabnaweenurak (6631503118) · Andrew Dicesare (6631503050) · Phuriath Janjirahpoonpon (6631503033) |
+| Target application | NoteVault — team note-sharing web app + JSON API (Flask/SQLite) |
+| Repository URL | https://github.com/NetPhurinath/Let-me-eat |
+| Date | 2026-11-04 |
 
 ## AI-tool usage disclosure
 *Academic integrity: state how you used any AI tools (ChatGPT, Copilot, etc.) — e.g. searching, coding, translating, drafting. "None" is a valid answer.*
 
 | Tool | How it was used |
 |---|---|
-| | |
+| ChatGPT / Hermes (AI assistant) | Drafting report sections (§1–§8 skeleton), explaining vulnerability root causes, and generating the security CI workflow, SBOM, and Cosign commands. All code and evidence was reviewed, tested and verified by the team before submission. |
+| Claude (AI assistant) | Used to help find/identify security vulnerabilities in the baseline code during the discovery phase. |
+| Semgrep / pip-audit / Trivy | Automated scanning used to triage and confirm findings (per §4 method). |
 
 ---
 
 ## 1. Executive Summary
-*(½ page) What the app is, how many findings by severity, and the overall risk before vs. after your fixes.*
+
+**NoteVault** is a small Flask/SQLite team note-sharing web app with a JSON API. We
+assessed the baseline build (commit `8725faa`), fixed every identified vulnerability, and
+hardened its build/release pipeline.
+
+We found **19 vulnerabilities: 4 Critical, 8 High, 4 Medium, 3 Low**, spanning injection
+(SQL in login and search, SSTI, OS command), broken access control (client-chosen roles,
+IDOR, admin API exposing password hashes), authentication failures (JWT `alg: none`,
+hard-coded secret, weak session cookie, no brute-force protection), cryptographic failures
+(unsalted MD5, weak session), security misconfiguration (Werkzeug debugger, container as
+root), and supply-chain issues (known-vulnerable dependencies).
+
+**Risk before vs after.** Before the fixes, a fully unauthenticated attacker could log in
+as `admin` via a SQLi one-liner (F-01) and, from there, reach the admin panel and the
+debugger console (F-12) — effectively full compromise of the container, which ran as root.
+After remediation: **all 19 findings are fixed**, the 21 security regression tests pass, and
+the CI gate (Semgrep + pip-audit + Trivy on HIGH/CRITICAL) fails on the baseline and passes
+on the fixed build. The app is now hardened and self-documenting in CI: an SBOM and a
+Cosign-signed artifact accompany each release.
 
 ---
 
@@ -137,11 +157,31 @@ These elements and boundary crossings are the rows analysed with STRIDE in §3.
 
 ## 3. Threat Model — STRIDE  *(20 pts)*
 
+We apply STRIDE to the elements and data flows identified in §2 (external entities E1–E3,
+processes P1–P5, data stores D1–D3 and trust boundaries TB1–TB4). Each row lists the STRIDE
+categories that apply, the top threat, and its fixed mitigation (finding ID → §5).
+
 | Element / data flow | S | T | R | I | D | E | Top threat & mitigation |
 |---|---|---|---|---|---|---|---|
-| | | | | | | | |
+| E1 → P1 login/register (TB1) | ✓ | | | | | | **S**poofing: SQLi auth bypass logs in as `admin` (F-01). → Parameterised SQL (F-01/02). |
+| E1 → P2/P3/P5 notes, search, export (TB1) | ✓ | | | ✓ | | | **S**poofing & **I**nfo. disclosure: forged JWT, SSTI, OS cmd injection read arbitrary data (F-03, F-04, F-05, F-06). → Signed tokens, escaped rendering, no shell. |
+| E1 ↔ P1 authn (TB1) | ✓ | | | | | ✓ | **S**poofing (weak cookie) & **E**levation (client-chosen role, dup-username takeover): F-07, F-08, F-13, F-15. → role server-side, unique usernames, secure cookie, throttling. |
+| E2 → P4 admin (TB1/TB3) | ✓ | | | ✓ | | ✓ | **I**nfo. disclosure of all user hashes & **E**levation if role spoofed: F-14, F-09. → object-level authz, data minimisation. |
+| E1 ↔ P2/P3 (TB3, DB) | ✓ | ✓ | | ✓ | | | **S**poofing/tampering via SQLi (F-01, F-02), **I**nfo. disclosure of other users' notes & stored XSS (F-10), MD5 hashes (F-11). → parameterised SQL, escaped rendering, bcrypt. |
+| P1 ↔ D3 config/secrets (TB4) | | ✓ | | ✓ | | | **T**ampering/leak of hard-coded JWT secret & app secret exposed in debugger (F-06, F-12). → env-injected secrets, debug off. |
+| P5 → OS shell (TB2) | | ✓ | | | | ✓ | **T**ampering → **E**levation: OS cmd injection in export; baseline runs as root (F-04, F-17). → no shell=True, non-root container user. |
+| E3 → container build (TB4) | ✓ | ✓ | | | | | **S**/T of supply chain: known-vulnerable deps, unpinned root base (F-16, F-17). → locked deps + Trivy gate + pinned slim base. |
+| All flows (cross-cutting) | | | ✓ | | | | **R**epudiation: no security event logging (F-19), missing input validation → silent 500s (F-18). → audit log, validation. |
 
-*Then rank the top 5 risks by likelihood × impact.*
+**Top 5 risks ranked by likelihood × impact**
+
+| Rank | Risk | Likelihood | Impact | Overall | Finding(s) |
+|---|---|---|---|---|---|
+| 1 | Auth bypass via SQL injection in login | High | Critical (full admin access) | **Critical** | F-01 |
+| 2 | OS command injection in export | Medium | Critical (RCE as root) | **High** | F-04 |
+| 3 | Server-side template injection | Medium | Critical (RCE/code eval) | **High** | F-03 |
+| 4 | Cross-user data disclosure (SQLi search + IDOR) | High | High (other users' notes, hashes) | **High** | F-02, F-09 |
+| 5 | Client-chosen role / duplicate-username takeover | High | High (privilege escalation) | **High** | F-07, F-08 |
 
 ---
 
@@ -621,27 +661,117 @@ TEAM_ID marker still work.
 ---
 
 ## 6. Supply-Chain Hardening  *(15 pts)*
-- **SBOM** (CycloneDX) generated — attach `sbom.json`, note component count.
-- **Artifact signed & verified** with Cosign — paste the `cosign verify` output.
-- One-paragraph **SLSA** self-assessment (which level, why).
+
+**SBOM (CycloneDX) generated.** We produce two SPDX/CycloneDX SBOMs:
+
+| SBOM | Scope | Components | File |
+|------|-------|-----------|------|
+| Application (Python deps) | every locked runtime dependency | **8** | [`evidence/final/sbom.json`](evidence/final/sbom.json) |
+| Container image | full image (Debian 13 base + Python app layers) | **97** | [`evidence/final/sbom-container.cdx.json`](evidence/final/sbom-container.cdx.json) |
+
+The application SBOM is generated from the canonical `requirements.lock` with
+`cyclonedx-py requirements requirements.lock`; the container SBOM is produced by
+Trivy (`trivy image --format cyclonedx`) against the built image — the same tools
+the CI workflow runs. Format: CycloneDX 1.6/1.7. The 8 application components are
+the pinned versions that pass the security gate: `blinker 1.9.0`, `click 8.5.0`,
+`flask 3.1.3`, `itsdangerous 2.2.0`, `jinja2 3.1.6`, `markupsafe 3.0.4`,
+`pyjwt 2.15.1`, `werkzeug 3.1.9`.
+
+**Artifact signed & verified with Cosign.** The release artifact
+`notevault-1.0.0.tar.gz` (SHA-256 `81eac6af…71a1`) was signed with a Cosign
+keypair and then verified against the public key:
+
+```bash
+$ cosign sign-blob --key cosign.key --bundle cosign.bundle notevault-1.0.0.tar.gz
+Signing artifact...
+Wrote bundle to file cosign.bundle
+
+$ cosign verify-blob --key cosign.pub --bundle cosign.bundle notevault-1.0.0.tar.gz
+Verified OK    (exit 0)
+```
+
+Artifacts: `evidence/final/cosign.bundle`, `evidence/final/cosign.pub` (the
+private `cosign.key` is kept out of the repository — it is gitignored so the
+signing key can never leak via the repo). `cosign.pub` is committed and can be
+used by anyone to reproduce the verification.
+
+**SLSA self-assessment.** This project achieves **SLSA Build L1** (and partially
+L2): the build is scripted and repeatable — the container is built from a pinned
+base image and the exact release artifact is produced by the signed CI workflow;
+the artifact carries an SBOM and a Cosign signature attesting its contents. It
+does **not** reach L2/L3 because builds are not yet fully hermetic and provenance
+is not generated through a separate trusted builder service — we sign the artifact
+ourselves after the build rather than having provenance issued by an independent
+build platform. Level 1+ is the appropriate target for a student term project and
+is meaningfully stronger than no provenance at all: consumers can verify the
+artifact's integrity and origin with a single `cosign verify` command.
 
 ---
 
 ## 7. Security CI Pipeline  *(10 pts)*
-- Link to the GitHub Actions workflow (SAST + SCA + secret scanning).
-- Screenshot of a build **failing** on a HIGH/CRITICAL finding.
-- How the gate is configured (what fails the build).
+- Link to the GitHub Actions workflow (SAST + SCA + secret scanning): [`.github/workflows/security.yml`](.github/workflows/security.yml)
+- Screenshot of a build **failing** on a HIGH/CRITICAL finding:
+
+![CI gate FAILING on before_patch (HIGH/CRITICAL)](evidence/final/CI-failed-real.png)
+
+- Screenshot of the same gate **passing** after remediation:
+
+![CI gate PASSING on main (HIGH/CRITICAL cleared)](evidence/final/CI-success-real.png)
+
+- How the gate is configured (what fails the build): the `Scan container` step runs
+  Trivy with `--severity HIGH,CRITICAL --ignore-unfixed --exit-code 1`, so any
+  HIGH/CRITICAL vulnerability in the container fails the build. Semgrep (SAST),
+  pip-audit (SCA) and Gitleaks (secret scan) run in the same workflow.
 
 ---
 
 ## 8. Conclusion & Reflection  *(5 pts — clarity)*
-- Residual risks and what you'd harden next.
-- Lessons learned.
+
+**Residual risks & what we'd harden next.** Even after remediation, some risk remains and
+should be addressed next: *(i)* deploy behind a real reverse proxy (nginx) with TLS and
+HTTP-only + Secure + SameSite cookies at the edge rather than the app alone; *(ii)* move to
+a fully keyless, CI-issued Cosign signature (via `release.yml`'s GitHub OIDC path) and push
+the signed image to GHCR so provenance is issued by the build platform rather than a local
+key; *(iii)* add rate limiting and account lockout with exponential backoff for stronger
+brute-force resistance; *(iv)* adopt a secrets manager (e.g. Vault) for `APP_SECRET`/DB
+credentials; and *(v)* extend the SBOM/SCA to run continuously on every dependency change
+rather than only at release.
+
+**Lessons learned.** The project showed that a "small" demo app can carry every class of
+the OWASP Top 10 at once, and that the cheapest, most reliable defence is in the data
+layer — parameterised queries, escaped output, server-side-only authorization — not
+per-route patches bolted on later. We also learned that a security regression test suite
+and a CI gate that *fails on the baseline* are what make the fixes durable: the same tests
+that caught the vulnerabilities now prevent them from regressing. Tooling (Semgrep, Trivy,
+pip-audit, Gitleaks, Cosign) is only as good as triage — separating true positives from
+rule noise was as valuable as running the scanners. Finally, the peer-review process
+caught real weaknesses in our own fixes, which is exactly what the viva will probe.
 
 ---
 
 ## Appendix
-- Tools used, references (OWASP/CWE links), and the team's task split.
+
+**Tools used**
+- Code review + reproduction: manual review, `curl`, pytest + Flask test client (Burp-style
+  manual checks); `starter-app/tests/test_security.py` (21 regression tests)
+- SAST: Semgrep (`p/python`, `p/flask`, `p/dockerfile`)
+- SCA / secrets: pip-audit, Trivy, Gitleaks
+- SBOM: `cyclonedx-py` (application), Trivy (container)
+- Signing: Cosign keypair + `cosign verify-blob`
+- CI: GitHub Actions (`security.yml`, `release.yml`)
+
+**References**
+- OWASP Top 10 (2025): https://owasp.org/Top10/
+- OWASP API Security Top 10: https://owasp.org/API-Security/
+- CWE (MITRE): https://cwe.mitre.org/
+- SLSA: https://slsa.dev/
+- Sigstore / Cosign: https://docs.sigstore.dev/
+
+**Team task split** (mirrors the peer-contribution assessment)
+- Gritthaphat Intaraprasit (6631503001) — report paper + work plan (§1, §2, §8, report assembly)
+- Supichaya Rabiabnaweenurak (6631503118) — SBOM + SCA (supply-chain hardening, §6)
+- Andrew Dicesare (6631503050) — threat discovery + patching (§4 findings, §5 remediation)
+- Phuriath Janjirahpoonpon (6631503033) — threat discovery + patching (§4, §5) + demo video
 
 ---
 

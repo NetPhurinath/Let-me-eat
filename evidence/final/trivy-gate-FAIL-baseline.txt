@@ -1,0 +1,999 @@
+2026-11-04T20:57:55+07:00	INFO	[vuln] Vulnerability scanning is enabled
+2026-11-04T20:57:55+07:00	INFO	[secret] Secret scanning is enabled
+2026-11-04T20:57:55+07:00	INFO	[secret] If your scanning is slow, please try '--scanners vuln' to disable secret scanning
+2026-11-04T20:57:55+07:00	INFO	[secret] Please see https://trivy.dev/docs/v0.76/guide/scanner/secret#recommendation for faster secret detection
+2026-11-04T20:57:55+07:00	INFO	Detected OS	family="debian" version="13.7"
+2026-11-04T20:57:55+07:00	INFO	[debian] Detecting vulnerabilities...	os_version="13" pkg_num=469
+2026-11-04T20:57:55+07:00	INFO	Number of language-specific files	num=1
+2026-11-04T20:57:55+07:00	INFO	[python-pkg] Detecting vulnerabilities...
+2026-11-04T20:57:55+07:00	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.76/guide/scanner/vulnerability#severity-selection for details.
+2026-11-04T20:57:55+07:00	INFO	Table result includes only package filenames. Use '--format json' option to get the full path to the package file.
+
+Report Summary
+
+┌──────────────────────────────────────────────────────────────────────────────────┬────────────┬─────────────────┬─────────┐
+│                                      Target                                      │    Type    │ Vulnerabilities │ Secrets │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ notevault-baseline (debian 13.7)                                                 │   debian   │       220       │    -    │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.12/site-packages/Flask-2.0.1.dist-info/METADATA            │ python-pkg │        1        │    -    │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.12/site-packages/Jinja2-3.0.1.dist-info/METADATA           │ python-pkg │        0        │    -    │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.12/site-packages/PyJWT-1.7.1.dist-info/METADATA            │ python-pkg │        6        │    -    │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.12/site-packages/Werkzeug-2.0.1.dist-info/METADATA         │ python-pkg │        2        │    -    │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.12/site-packages/certifi-2026.10.23.dist-info/METADATA     │ python-pkg │        0        │    -    │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.12/site-packages/chardet-4.0.0.dist-info/METADATA          │ python-pkg │        0        │    -    │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.12/site-packages/click-8.5.0.dist-info/METADATA            │ python-pkg │        0        │    -    │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.12/site-packages/idna-2.10.dist-info/METADATA              │ python-pkg │        0        │    -    │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.12/site-packages/itsdangerous-2.2.0.dist-info/METADATA     │ python-pkg │        0        │    -    │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.12/site-packages/markupsafe-3.0.4.dist-info/METADATA       │ python-pkg │        0        │    -    │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.12/site-packages/pip-25.0.1.dist-info/METADATA             │ python-pkg │        0        │    -    │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.12/site-packages/requests-2.25.1.dist-info/METADATA        │ python-pkg │        0        │    -    │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.12/site-packages/urllib3-1.26.4.dist-info/METADATA         │ python-pkg │        8        │    -    │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ /root/.cache/pip/http-v2/8/2/7/2/0/8272062f5bffa50ae9929be2b6b3d5ac606091a6cf46- │    text    │        -        │    0    │
+│ 8f8f96aa8975.body                                                                │            │                 │         │
+└──────────────────────────────────────────────────────────────────────────────────┴────────────┴─────────────────┴─────────┘
+Legend:
+- '-': Not scanned
+- '0': Clean (no security findings detected)
+
+
+notevault-baseline (debian 13.7)
+================================
+Total: 220 (HIGH: 219, CRITICAL: 1)
+
+┌──────────────────────────────┬─────────────────┬──────────┬────────┬─────────────────────────────┬─────────────────────────────┬──────────────────────────────────────────────────────────────┐
+│           Library            │  Vulnerability  │ Severity │ Status │      Installed Version      │        Fixed Version        │                            Title                             │
+├──────────────────────────────┼─────────────────┼──────────┼────────┼─────────────────────────────┼─────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│ imagemagick                  │ CVE-2026-106565 │ HIGH     │ fixed  │ 8:7.1.1.43+dfsg1-1+deb13u12 │ 8:7.1.1.43+dfsg1-1+deb13u13 │ ImageMagick: ImageMagick: Denial of Service via missing      │
+│                              │                 │          │        │                             │                             │ end-of-file check in bzip2 images...                         │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106565                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106567 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via crafted PSD  │
+│                              │                 │          │        │                             │                             │ file                                                         │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106567                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106573 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via missing      │
+│                              │                 │          │        │                             │                             │ limit check in MVG decoder...                                │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106573                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106576 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via crafted XMP  │
+│                              │                 │          │        │                             │                             │ profile                                                      │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106576                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106578 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via invalid      │
+│                              │                 │          │        │                             │                             │ memory free in MVG decoder...                                │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106578                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106579 │          │        │                             │                             │ ImageMagick: ImageMagick: Information disclosure via         │
+│                              │                 │          │        │                             │                             │ security policy bypass                                       │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106579                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106580 │          │        │                             │                             │ ImageMagick: ImageMagick: Information disclosure via missing │
+│                              │                 │          │        │                             │                             │ security policy check in CUT encoder...                      │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106580                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-107209 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via crafted RSVG │
+│                              │                 │          │        │                             │                             │ image                                                        │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-107209                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-109261 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via memory leak  │
+│                              │                 │          │        │                             │                             │ in GIF encoder                                               │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-109261                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-86420  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service due to memory    │
+│                              │                 │          │        │                             │                             │ budget exhaustion                                            │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-86420                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-86421  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via memory leak  │
+│                              │                 │          │        │                             │                             │ in MSL decoder                                               │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-86421                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-93589  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via division by  │
+│                              │                 │          │        │                             │                             │ zero in FLIF encoder...                                      │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-93589                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-93590  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via UHDR encoder │
+│                              │                 │          │        │                             │                             │ policy bypass                                                │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-93590                   │
+├──────────────────────────────┼─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│ imagemagick-7-common         │ CVE-2026-106565 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via missing      │
+│                              │                 │          │        │                             │                             │ end-of-file check in bzip2 images...                         │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106565                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106567 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via crafted PSD  │
+│                              │                 │          │        │                             │                             │ file                                                         │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106567                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106573 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via missing      │
+│                              │                 │          │        │                             │                             │ limit check in MVG decoder...                                │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106573                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106576 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via crafted XMP  │
+│                              │                 │          │        │                             │                             │ profile                                                      │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106576                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106578 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via invalid      │
+│                              │                 │          │        │                             │                             │ memory free in MVG decoder...                                │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106578                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106579 │          │        │                             │                             │ ImageMagick: ImageMagick: Information disclosure via         │
+│                              │                 │          │        │                             │                             │ security policy bypass                                       │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106579                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106580 │          │        │                             │                             │ ImageMagick: ImageMagick: Information disclosure via missing │
+│                              │                 │          │        │                             │                             │ security policy check in CUT encoder...                      │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106580                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-107209 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via crafted RSVG │
+│                              │                 │          │        │                             │                             │ image                                                        │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-107209                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-109261 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via memory leak  │
+│                              │                 │          │        │                             │                             │ in GIF encoder                                               │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-109261                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-86420  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service due to memory    │
+│                              │                 │          │        │                             │                             │ budget exhaustion                                            │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-86420                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-86421  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via memory leak  │
+│                              │                 │          │        │                             │                             │ in MSL decoder                                               │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-86421                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-93589  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via division by  │
+│                              │                 │          │        │                             │                             │ zero in FLIF encoder...                                      │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-93589                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-93590  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via UHDR encoder │
+│                              │                 │          │        │                             │                             │ policy bypass                                                │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-93590                   │
+├──────────────────────────────┼─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│ imagemagick-7.q16            │ CVE-2026-106565 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via missing      │
+│                              │                 │          │        │                             │                             │ end-of-file check in bzip2 images...                         │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106565                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106567 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via crafted PSD  │
+│                              │                 │          │        │                             │                             │ file                                                         │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106567                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106573 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via missing      │
+│                              │                 │          │        │                             │                             │ limit check in MVG decoder...                                │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106573                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106576 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via crafted XMP  │
+│                              │                 │          │        │                             │                             │ profile                                                      │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106576                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106578 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via invalid      │
+│                              │                 │          │        │                             │                             │ memory free in MVG decoder...                                │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106578                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106579 │          │        │                             │                             │ ImageMagick: ImageMagick: Information disclosure via         │
+│                              │                 │          │        │                             │                             │ security policy bypass                                       │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106579                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106580 │          │        │                             │                             │ ImageMagick: ImageMagick: Information disclosure via missing │
+│                              │                 │          │        │                             │                             │ security policy check in CUT encoder...                      │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106580                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-107209 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via crafted RSVG │
+│                              │                 │          │        │                             │                             │ image                                                        │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-107209                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-109261 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via memory leak  │
+│                              │                 │          │        │                             │                             │ in GIF encoder                                               │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-109261                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-86420  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service due to memory    │
+│                              │                 │          │        │                             │                             │ budget exhaustion                                            │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-86420                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-86421  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via memory leak  │
+│                              │                 │          │        │                             │                             │ in MSL decoder                                               │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-86421                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-93589  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via division by  │
+│                              │                 │          │        │                             │                             │ zero in FLIF encoder...                                      │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-93589                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-93590  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via UHDR encoder │
+│                              │                 │          │        │                             │                             │ policy bypass                                                │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-93590                   │
+├──────────────────────────────┼─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│ libmagickcore-7-arch-config  │ CVE-2026-106565 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via missing      │
+│                              │                 │          │        │                             │                             │ end-of-file check in bzip2 images...                         │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106565                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106567 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via crafted PSD  │
+│                              │                 │          │        │                             │                             │ file                                                         │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106567                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106573 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via missing      │
+│                              │                 │          │        │                             │                             │ limit check in MVG decoder...                                │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106573                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106576 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via crafted XMP  │
+│                              │                 │          │        │                             │                             │ profile                                                      │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106576                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106578 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via invalid      │
+│                              │                 │          │        │                             │                             │ memory free in MVG decoder...                                │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106578                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106579 │          │        │                             │                             │ ImageMagick: ImageMagick: Information disclosure via         │
+│                              │                 │          │        │                             │                             │ security policy bypass                                       │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106579                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106580 │          │        │                             │                             │ ImageMagick: ImageMagick: Information disclosure via missing │
+│                              │                 │          │        │                             │                             │ security policy check in CUT encoder...                      │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106580                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-107209 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via crafted RSVG │
+│                              │                 │          │        │                             │                             │ image                                                        │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-107209                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-109261 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via memory leak  │
+│                              │                 │          │        │                             │                             │ in GIF encoder                                               │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-109261                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-86420  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service due to memory    │
+│                              │                 │          │        │                             │                             │ budget exhaustion                                            │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-86420                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-86421  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via memory leak  │
+│                              │                 │          │        │                             │                             │ in MSL decoder                                               │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-86421                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-93589  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via division by  │
+│                              │                 │          │        │                             │                             │ zero in FLIF encoder...                                      │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-93589                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-93590  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via UHDR encoder │
+│                              │                 │          │        │                             │                             │ policy bypass                                                │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-93590                   │
+├──────────────────────────────┼─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│ libmagickcore-7-headers      │ CVE-2026-106565 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via missing      │
+│                              │                 │          │        │                             │                             │ end-of-file check in bzip2 images...                         │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106565                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106567 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via crafted PSD  │
+│                              │                 │          │        │                             │                             │ file                                                         │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106567                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106573 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via missing      │
+│                              │                 │          │        │                             │                             │ limit check in MVG decoder...                                │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106573                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106576 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via crafted XMP  │
+│                              │                 │          │        │                             │                             │ profile                                                      │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106576                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106578 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via invalid      │
+│                              │                 │          │        │                             │                             │ memory free in MVG decoder...                                │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106578                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106579 │          │        │                             │                             │ ImageMagick: ImageMagick: Information disclosure via         │
+│                              │                 │          │        │                             │                             │ security policy bypass                                       │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106579                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106580 │          │        │                             │                             │ ImageMagick: ImageMagick: Information disclosure via missing │
+│                              │                 │          │        │                             │                             │ security policy check in CUT encoder...                      │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106580                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-107209 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via crafted RSVG │
+│                              │                 │          │        │                             │                             │ image                                                        │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-107209                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-109261 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via memory leak  │
+│                              │                 │          │        │                             │                             │ in GIF encoder                                               │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-109261                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-86420  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service due to memory    │
+│                              │                 │          │        │                             │                             │ budget exhaustion                                            │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-86420                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-86421  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via memory leak  │
+│                              │                 │          │        │                             │                             │ in MSL decoder                                               │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-86421                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-93589  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via division by  │
+│                              │                 │          │        │                             │                             │ zero in FLIF encoder...                                      │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-93589                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-93590  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via UHDR encoder │
+│                              │                 │          │        │                             │                             │ policy bypass                                                │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-93590                   │
+├──────────────────────────────┼─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│ libmagickcore-7.q16-10       │ CVE-2026-106565 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via missing      │
+│                              │                 │          │        │                             │                             │ end-of-file check in bzip2 images...                         │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106565                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106567 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via crafted PSD  │
+│                              │                 │          │        │                             │                             │ file                                                         │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106567                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106573 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via missing      │
+│                              │                 │          │        │                             │                             │ limit check in MVG decoder...                                │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106573                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106576 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via crafted XMP  │
+│                              │                 │          │        │                             │                             │ profile                                                      │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106576                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106578 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via invalid      │
+│                              │                 │          │        │                             │                             │ memory free in MVG decoder...                                │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106578                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106579 │          │        │                             │                             │ ImageMagick: ImageMagick: Information disclosure via         │
+│                              │                 │          │        │                             │                             │ security policy bypass                                       │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106579                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106580 │          │        │                             │                             │ ImageMagick: ImageMagick: Information disclosure via missing │
+│                              │                 │          │        │                             │                             │ security policy check in CUT encoder...                      │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106580                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-107209 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via crafted RSVG │
+│                              │                 │          │        │                             │                             │ image                                                        │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-107209                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-109261 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via memory leak  │
+│                              │                 │          │        │                             │                             │ in GIF encoder                                               │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-109261                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-86420  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service due to memory    │
+│                              │                 │          │        │                             │                             │ budget exhaustion                                            │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-86420                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-86421  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via memory leak  │
+│                              │                 │          │        │                             │                             │ in MSL decoder                                               │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-86421                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-93589  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via division by  │
+│                              │                 │          │        │                             │                             │ zero in FLIF encoder...                                      │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-93589                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-93590  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via UHDR encoder │
+│                              │                 │          │        │                             │                             │ policy bypass                                                │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-93590                   │
+├──────────────────────────────┼─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│ libmagickcore-7.q16-10-extra │ CVE-2026-106565 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via missing      │
+│                              │                 │          │        │                             │                             │ end-of-file check in bzip2 images...                         │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106565                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106567 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via crafted PSD  │
+│                              │                 │          │        │                             │                             │ file                                                         │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106567                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106573 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via missing      │
+│                              │                 │          │        │                             │                             │ limit check in MVG decoder...                                │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106573                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106576 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via crafted XMP  │
+│                              │                 │          │        │                             │                             │ profile                                                      │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106576                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106578 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via invalid      │
+│                              │                 │          │        │                             │                             │ memory free in MVG decoder...                                │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106578                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106579 │          │        │                             │                             │ ImageMagick: ImageMagick: Information disclosure via         │
+│                              │                 │          │        │                             │                             │ security policy bypass                                       │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106579                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106580 │          │        │                             │                             │ ImageMagick: ImageMagick: Information disclosure via missing │
+│                              │                 │          │        │                             │                             │ security policy check in CUT encoder...                      │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106580                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-107209 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via crafted RSVG │
+│                              │                 │          │        │                             │                             │ image                                                        │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-107209                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-109261 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via memory leak  │
+│                              │                 │          │        │                             │                             │ in GIF encoder                                               │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-109261                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-86420  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service due to memory    │
+│                              │                 │          │        │                             │                             │ budget exhaustion                                            │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-86420                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-86421  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via memory leak  │
+│                              │                 │          │        │                             │                             │ in MSL decoder                                               │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-86421                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-93589  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via division by  │
+│                              │                 │          │        │                             │                             │ zero in FLIF encoder...                                      │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-93589                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-93590  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via UHDR encoder │
+│                              │                 │          │        │                             │                             │ policy bypass                                                │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-93590                   │
+├──────────────────────────────┼─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│ libmagickcore-7.q16-dev      │ CVE-2026-106565 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via missing      │
+│                              │                 │          │        │                             │                             │ end-of-file check in bzip2 images...                         │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106565                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106567 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via crafted PSD  │
+│                              │                 │          │        │                             │                             │ file                                                         │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106567                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106573 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via missing      │
+│                              │                 │          │        │                             │                             │ limit check in MVG decoder...                                │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106573                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106576 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via crafted XMP  │
+│                              │                 │          │        │                             │                             │ profile                                                      │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106576                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106578 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via invalid      │
+│                              │                 │          │        │                             │                             │ memory free in MVG decoder...                                │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106578                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106579 │          │        │                             │                             │ ImageMagick: ImageMagick: Information disclosure via         │
+│                              │                 │          │        │                             │                             │ security policy bypass                                       │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106579                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106580 │          │        │                             │                             │ ImageMagick: ImageMagick: Information disclosure via missing │
+│                              │                 │          │        │                             │                             │ security policy check in CUT encoder...                      │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106580                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-107209 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via crafted RSVG │
+│                              │                 │          │        │                             │                             │ image                                                        │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-107209                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-109261 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via memory leak  │
+│                              │                 │          │        │                             │                             │ in GIF encoder                                               │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-109261                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-86420  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service due to memory    │
+│                              │                 │          │        │                             │                             │ budget exhaustion                                            │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-86420                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-86421  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via memory leak  │
+│                              │                 │          │        │                             │                             │ in MSL decoder                                               │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-86421                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-93589  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via division by  │
+│                              │                 │          │        │                             │                             │ zero in FLIF encoder...                                      │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-93589                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-93590  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via UHDR encoder │
+│                              │                 │          │        │                             │                             │ policy bypass                                                │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-93590                   │
+├──────────────────────────────┼─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│ libmagickcore-dev            │ CVE-2026-106565 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via missing      │
+│                              │                 │          │        │                             │                             │ end-of-file check in bzip2 images...                         │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106565                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106567 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via crafted PSD  │
+│                              │                 │          │        │                             │                             │ file                                                         │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106567                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106573 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via missing      │
+│                              │                 │          │        │                             │                             │ limit check in MVG decoder...                                │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106573                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106576 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via crafted XMP  │
+│                              │                 │          │        │                             │                             │ profile                                                      │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106576                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106578 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via invalid      │
+│                              │                 │          │        │                             │                             │ memory free in MVG decoder...                                │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106578                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106579 │          │        │                             │                             │ ImageMagick: ImageMagick: Information disclosure via         │
+│                              │                 │          │        │                             │                             │ security policy bypass                                       │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106579                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106580 │          │        │                             │                             │ ImageMagick: ImageMagick: Information disclosure via missing │
+│                              │                 │          │        │                             │                             │ security policy check in CUT encoder...                      │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106580                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-107209 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via crafted RSVG │
+│                              │                 │          │        │                             │                             │ image                                                        │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-107209                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-109261 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via memory leak  │
+│                              │                 │          │        │                             │                             │ in GIF encoder                                               │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-109261                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-86420  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service due to memory    │
+│                              │                 │          │        │                             │                             │ budget exhaustion                                            │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-86420                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-86421  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via memory leak  │
+│                              │                 │          │        │                             │                             │ in MSL decoder                                               │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-86421                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-93589  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via division by  │
+│                              │                 │          │        │                             │                             │ zero in FLIF encoder...                                      │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-93589                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-93590  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via UHDR encoder │
+│                              │                 │          │        │                             │                             │ policy bypass                                                │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-93590                   │
+├──────────────────────────────┼─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│ libmagickwand-7-headers      │ CVE-2026-106565 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via missing      │
+│                              │                 │          │        │                             │                             │ end-of-file check in bzip2 images...                         │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106565                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106567 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via crafted PSD  │
+│                              │                 │          │        │                             │                             │ file                                                         │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106567                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106573 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via missing      │
+│                              │                 │          │        │                             │                             │ limit check in MVG decoder...                                │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106573                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106576 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via crafted XMP  │
+│                              │                 │          │        │                             │                             │ profile                                                      │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106576                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106578 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via invalid      │
+│                              │                 │          │        │                             │                             │ memory free in MVG decoder...                                │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106578                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106579 │          │        │                             │                             │ ImageMagick: ImageMagick: Information disclosure via         │
+│                              │                 │          │        │                             │                             │ security policy bypass                                       │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106579                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106580 │          │        │                             │                             │ ImageMagick: ImageMagick: Information disclosure via missing │
+│                              │                 │          │        │                             │                             │ security policy check in CUT encoder...                      │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106580                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-107209 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via crafted RSVG │
+│                              │                 │          │        │                             │                             │ image                                                        │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-107209                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-109261 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via memory leak  │
+│                              │                 │          │        │                             │                             │ in GIF encoder                                               │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-109261                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-86420  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service due to memory    │
+│                              │                 │          │        │                             │                             │ budget exhaustion                                            │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-86420                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-86421  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via memory leak  │
+│                              │                 │          │        │                             │                             │ in MSL decoder                                               │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-86421                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-93589  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via division by  │
+│                              │                 │          │        │                             │                             │ zero in FLIF encoder...                                      │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-93589                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-93590  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via UHDR encoder │
+│                              │                 │          │        │                             │                             │ policy bypass                                                │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-93590                   │
+├──────────────────────────────┼─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│ libmagickwand-7.q16-10       │ CVE-2026-106565 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via missing      │
+│                              │                 │          │        │                             │                             │ end-of-file check in bzip2 images...                         │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106565                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106567 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via crafted PSD  │
+│                              │                 │          │        │                             │                             │ file                                                         │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106567                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106573 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via missing      │
+│                              │                 │          │        │                             │                             │ limit check in MVG decoder...                                │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106573                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106576 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via crafted XMP  │
+│                              │                 │          │        │                             │                             │ profile                                                      │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106576                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106578 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via invalid      │
+│                              │                 │          │        │                             │                             │ memory free in MVG decoder...                                │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106578                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106579 │          │        │                             │                             │ ImageMagick: ImageMagick: Information disclosure via         │
+│                              │                 │          │        │                             │                             │ security policy bypass                                       │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106579                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106580 │          │        │                             │                             │ ImageMagick: ImageMagick: Information disclosure via missing │
+│                              │                 │          │        │                             │                             │ security policy check in CUT encoder...                      │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106580                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-107209 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via crafted RSVG │
+│                              │                 │          │        │                             │                             │ image                                                        │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-107209                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-109261 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via memory leak  │
+│                              │                 │          │        │                             │                             │ in GIF encoder                                               │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-109261                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-86420  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service due to memory    │
+│                              │                 │          │        │                             │                             │ budget exhaustion                                            │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-86420                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-86421  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via memory leak  │
+│                              │                 │          │        │                             │                             │ in MSL decoder                                               │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-86421                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-93589  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via division by  │
+│                              │                 │          │        │                             │                             │ zero in FLIF encoder...                                      │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-93589                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-93590  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via UHDR encoder │
+│                              │                 │          │        │                             │                             │ policy bypass                                                │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-93590                   │
+├──────────────────────────────┼─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│ libmagickwand-7.q16-dev      │ CVE-2026-106565 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via missing      │
+│                              │                 │          │        │                             │                             │ end-of-file check in bzip2 images...                         │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106565                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106567 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via crafted PSD  │
+│                              │                 │          │        │                             │                             │ file                                                         │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106567                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106573 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via missing      │
+│                              │                 │          │        │                             │                             │ limit check in MVG decoder...                                │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106573                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106576 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via crafted XMP  │
+│                              │                 │          │        │                             │                             │ profile                                                      │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106576                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106578 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via invalid      │
+│                              │                 │          │        │                             │                             │ memory free in MVG decoder...                                │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106578                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106579 │          │        │                             │                             │ ImageMagick: ImageMagick: Information disclosure via         │
+│                              │                 │          │        │                             │                             │ security policy bypass                                       │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106579                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106580 │          │        │                             │                             │ ImageMagick: ImageMagick: Information disclosure via missing │
+│                              │                 │          │        │                             │                             │ security policy check in CUT encoder...                      │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106580                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-107209 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via crafted RSVG │
+│                              │                 │          │        │                             │                             │ image                                                        │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-107209                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-109261 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via memory leak  │
+│                              │                 │          │        │                             │                             │ in GIF encoder                                               │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-109261                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-86420  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service due to memory    │
+│                              │                 │          │        │                             │                             │ budget exhaustion                                            │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-86420                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-86421  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via memory leak  │
+│                              │                 │          │        │                             │                             │ in MSL decoder                                               │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-86421                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-93589  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via division by  │
+│                              │                 │          │        │                             │                             │ zero in FLIF encoder...                                      │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-93589                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-93590  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via UHDR encoder │
+│                              │                 │          │        │                             │                             │ policy bypass                                                │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-93590                   │
+├──────────────────────────────┼─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│ libmagickwand-dev            │ CVE-2026-106565 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via missing      │
+│                              │                 │          │        │                             │                             │ end-of-file check in bzip2 images...                         │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106565                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106567 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via crafted PSD  │
+│                              │                 │          │        │                             │                             │ file                                                         │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106567                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106573 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via missing      │
+│                              │                 │          │        │                             │                             │ limit check in MVG decoder...                                │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106573                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106576 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via crafted XMP  │
+│                              │                 │          │        │                             │                             │ profile                                                      │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106576                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106578 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via invalid      │
+│                              │                 │          │        │                             │                             │ memory free in MVG decoder...                                │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106578                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106579 │          │        │                             │                             │ ImageMagick: ImageMagick: Information disclosure via         │
+│                              │                 │          │        │                             │                             │ security policy bypass                                       │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106579                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-106580 │          │        │                             │                             │ ImageMagick: ImageMagick: Information disclosure via missing │
+│                              │                 │          │        │                             │                             │ security policy check in CUT encoder...                      │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-106580                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-107209 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via crafted RSVG │
+│                              │                 │          │        │                             │                             │ image                                                        │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-107209                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-109261 │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via memory leak  │
+│                              │                 │          │        │                             │                             │ in GIF encoder                                               │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-109261                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-86420  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service due to memory    │
+│                              │                 │          │        │                             │                             │ budget exhaustion                                            │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-86420                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-86421  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via memory leak  │
+│                              │                 │          │        │                             │                             │ in MSL decoder                                               │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-86421                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-93589  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via division by  │
+│                              │                 │          │        │                             │                             │ zero in FLIF encoder...                                      │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-93589                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-93590  │          │        │                             │                             │ ImageMagick: ImageMagick: Denial of Service via UHDR encoder │
+│                              │                 │          │        │                             │                             │ policy bypass                                                │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-93590                   │
+├──────────────────────────────┼─────────────────┼──────────┤        ├─────────────────────────────┼─────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│ linux-libc-dev               │ CVE-2026-99083  │ CRITICAL │        │ 6.12.113-1                  │ 6.12.115-2                  │ kernel: ksmbd: fix heap out-of-bounds write in               │
+│                              │                 │          │        │                             │                             │ krb5_authenticate()                                          │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-99083                   │
+│                              ├─────────────────┼──────────┤        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2025-38137  │ HIGH     │        │                             │                             │ kernel: PCI/pwrctrl: Cancel outstanding rescan work when     │
+│                              │                 │          │        │                             │                             │ unregistering                                                │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2025-38137                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2025-38187  │          │        │                             │                             │ kernel: drm/nouveau: fix a use-after-free in                 │
+│                              │                 │          │        │                             │                             │ r535_gsp_rpc_push()                                          │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2025-38187                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2025-38421  │          │        │                             │                             │ kernel: platform/x86/amd: pmf: Use device managed            │
+│                              │                 │          │        │                             │                             │ allocations                                                  │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2025-38421                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2025-38636  │          │        │                             │                             │ kernel: rv: Use strings in da monitors tracepoints           │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2025-38636                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2025-38656  │          │        │                             │                             │ kernel: wifi: iwlwifi: Fix error code in                     │
+│                              │                 │          │        │                             │                             │ iwl_op_mode_dvm_start()                                      │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2025-38656                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2025-39859  │          │        │                             │                             │ kernel: ptp: ocp: fix use-after-free bugs causing by         │
+│                              │                 │          │        │                             │                             │ ptp_ocp_watchdog                                             │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2025-39859                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2025-39862  │          │        │                             │                             │ kernel: wifi: mt76: mt7915: fix list corruption after        │
+│                              │                 │          │        │                             │                             │ hardware restart                                             │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2025-39862                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2025-39958  │          │        │                             │                             │ kernel: iommu/s390: Make attach succeed when the device was  │
+│                              │                 │          │        │                             │                             │ surprise removed                                             │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2025-39958                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2025-68174  │          │        │                             │                             │ kernel: Linux kernel AMD KFD: Race condition causes system   │
+│                              │                 │          │        │                             │                             │ crash                                                        │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2025-68174                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2025-68735  │          │        │                             │                             │ kernel: Kernel: Privilege escalation via use-after-free in   │
+│                              │                 │          │        │                             │                             │ drm/panthor                                                  │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2025-68735                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-100072 │          │        │                             │                             │ kernel: ACPI: platform: Use acpi_bus_get_primary_device()    │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-100072                  │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-23208  │          │        │                             │                             │ kernel: ALSA: usb-audio: Prevent excessive number of frames  │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-23208                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-23327  │          │        │                             │                             │ kernel: cxl/mbox: validate payload size before accessing     │
+│                              │                 │          │        │                             │                             │ contents in cxl_payload_from_user_allowed()                  │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-23327                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-31493  │          │        │                             │                             │ kernel: RDMA/efa: Fix use of completion ctx after free       │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-31493                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-43185  │          │        │                             │                             │ kernel: ksmbd: fix signededness bug in                       │
+│                              │                 │          │        │                             │                             │ smb_direct_prepare_negotiation()                             │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-43185                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-46130  │          │        │                             │                             │ kernel: dm-verity-fec: fix reading parity bytes split across │
+│                              │                 │          │        │                             │                             │ blocks (take 3)                                              │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-46130                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-46181  │          │        │                             │                             │ kernel: RDMA/mlx4: Fix mis-use of RCU in mlx4_srq_event()    │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-46181                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-52991  │          │        │                             │                             │ kernel: sched/psi: fix race between file release and         │
+│                              │                 │          │        │                             │                             │ pressure write                                               │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-52991                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-53000  │          │        │                             │                             │ kernel: netfilter: nat: use kfree_rcu to release ops         │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-53000                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-53091  │          │        │                             │                             │ kernel: net: pull headers in qdisc_pkt_len_segs_init()       │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-53091                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-53109  │          │        │                             │                             │ kernel: powerpc/pgtable-frag: Fix bad page state in          │
+│                              │                 │          │        │                             │                             │ pte_frag_destroy                                             │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-53109                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-53118  │          │        │                             │                             │ kernel: vdpa: use generic driver_override infrastructure     │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-53118                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-53277  │          │        │                             │                             │ kernel: KVM: arm64: Take the SRCU lock for page table walks  │
+│                              │                 │          │        │                             │                             │ in...                                                        │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-53277                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-53330  │          │        │                             │                             │ kernel: drm/amd/display: Fix out-of-bounds read in           │
+│                              │                 │          │        │                             │                             │ dp_get_eq_aux_rd_interval()                                  │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-53330                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-63879  │          │        │                             │                             │ kernel: drm/amdgpu: fix amdgpu_hmm_range_get_pages           │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-63879                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-64283  │          │        │                             │                             │ kernel: KVM: guest_memfd: Treat memslot binding offset+size  │
+│                              │                 │          │        │                             │                             │ as unsigned values                                           │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-64283                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-64389  │          │        │                             │                             │ kernel: ksmbd: validate NTLMv2 response before updating      │
+│                              │                 │          │        │                             │                             │ session key                                                  │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-64389                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-64400  │          │        │                             │                             │ kernel: ksmbd: prevent path traversal bypass by restricting  │
+│                              │                 │          │        │                             │                             │ caseless retry                                               │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-64400                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-68409  │          │        │                             │                             │ kernel: wifi: mac80211: defer link RX stats percpu free to   │
+│                              │                 │          │        │                             │                             │ RCU                                                          │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-68409                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-68426  │          │        │                             │                             │ kernel: xfrm: fix stale skb->prev after async crypto steals  │
+│                              │                 │          │        │                             │                             │ a GSO segment...                                             │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-68426                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-68470  │          │        │                             │                             │ kernel: wifi: mac80211: validate extension-frame layout      │
+│                              │                 │          │        │                             │                             │ before RX                                                    │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-68470                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-72098  │          │        │                             │                             │ kernel: dm-verity: fix buffer overflow in FEC calculation    │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-72098                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-74269  │          │        │                             │                             │ kernel: bnxt: fix head underflow on XDP head-grow            │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-74269                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-74520  │          │        │                             │                             │ kernel: iommu/iommufd: Fix IOPF group ownership UAF          │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-74520                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-74752  │          │        │                             │                             │ kernel: sctp: validate cookie AUTH state before use          │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-74752                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-89631  │          │        │                             │                             │ kernel: smb: client: reject a tree connect response whose    │
+│                              │                 │          │        │                             │                             │ byte count is...                                             │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-89631                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-89788  │          │        │                             │                             │ In the Linux kernel, the following vulnerability has been    │
+│                              │                 │          │        │                             │                             │ resolved: k...                                               │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-89788                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-89811  │          │        │                             │                             │ kernel: drm/amdkfd: Add TLB flush after MES queue            │
+│                              │                 │          │        │                             │                             │ eviction/suspension                                          │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-89811                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-90111  │          │        │                             │                             │ kernel: ip6mr: do not clone dst in ip6mr_cache_report()      │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-90111                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-90206  │          │        │                             │                             │ kernel: nvmet: fix max_qid race between configfs and         │
+│                              │                 │          │        │                             │                             │ controller allocation                                        │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-90206                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-98084  │          │        │                             │                             │ In the Linux kernel, the following vulnerability has been    │
+│                              │                 │          │        │                             │                             │ resolved: b...                                               │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-98084                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-98974  │          │        │                             │                             │ kernel: kernel: xfs: Unauthorized data modification via      │
+│                              │                 │          │        │                             │                             │ improper file size exchange handling...                      │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-98974                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-99110  │          │        │                             │                             │ kernel: smb: client: fix heap overflow in cifs_do_set_acl()  │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-99110                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-99152  │          │        │                             │                             │ kernel: kernel: Denial of Service via unvalidated task in    │
+│                              │                 │          │        │                             │                             │ iSCSI management responses...                                │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-99152                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-99153  │          │        │                             │                             │ kernel: kernel: Denial of service via unvalidated task tag   │
+│                              │                 │          │        │                             │                             │ in iSCSI Reject...                                           │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-99153                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-99167  │          │        │                             │                             │ kernel: net/sched: fix use-after-free in __tcf_action_put()  │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-99167                   │
+│                              ├─────────────────┤          │        │                             ├─────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-99231  │          │        │                             │ 6.12.115-1                  │ kernel: kernel: Privilege escalation via use-after-free in   │
+│                              │                 │          │        │                             │                             │ io_uring waitid                                              │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-99231                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-99233  │          │        │                             │                             │ kernel: kernel: Privilege escalation via use-after-free in   │
+│                              │                 │          │        │                             │                             │ tracing subsystem                                            │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-99233                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-99235  │          │        │                             │                             │ kernel: kernel: Privilege escalation via use-after-free in   │
+│                              │                 │          │        │                             │                             │ event tracing subsystem                                      │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-99235                   │
+│                              ├─────────────────┤          │        │                             │                             ├──────────────────────────────────────────────────────────────┤
+│                              │ CVE-2026-99239  │          │        │                             │                             │ kernel: kernel: Privilege escalation via race condition in   │
+│                              │                 │          │        │                             │                             │ Bluetooth L2CAP                                              │
+│                              │                 │          │        │                             │                             │ https://avd.aquasec.com/nvd/cve-2026-99239                   │
+└──────────────────────────────┴─────────────────┴──────────┴────────┴─────────────────────────────┴─────────────────────────────┴──────────────────────────────────────────────────────────────┘
+
+Python (python-pkg)
+===================
+Total: 17 (HIGH: 16, CRITICAL: 1)
+
+┌─────────────────────┬─────────────────────┬──────────┬────────┬───────────────────┬────────────────┬──────────────────────────────────────────────────────────────┐
+│       Library       │    Vulnerability    │ Severity │ Status │ Installed Version │ Fixed Version  │                            Title                             │
+├─────────────────────┼─────────────────────┼──────────┼────────┼───────────────────┼────────────────┼──────────────────────────────────────────────────────────────┤
+│ Flask (METADATA)    │ CVE-2023-30861      │ HIGH     │ fixed  │ 2.0.1             │ 2.3.2, 2.2.5   │ flask: Possible disclosure of permanent session cookie due   │
+│                     │                     │          │        │                   │                │ to missing Vary: Cookie...                                   │
+│                     │                     │          │        │                   │                │ https://avd.aquasec.com/nvd/cve-2023-30861                   │
+├─────────────────────┼─────────────────────┼──────────┤        ├───────────────────┼────────────────┼──────────────────────────────────────────────────────────────┤
+│ PyJWT (METADATA)    │ CVE-2026-102268     │ CRITICAL │        │ 1.7.1             │ 2.14.0         │ pyjwt: PyJWT: Authentication bypass via improper public key  │
+│                     │                     │          │        │                   │                │ validation                                                   │
+│                     │                     │          │        │                   │                │ https://avd.aquasec.com/nvd/cve-2026-102268                  │
+│                     ├─────────────────────┼──────────┤        │                   ├────────────────┼──────────────────────────────────────────────────────────────┤
+│                     │ CVE-2022-29217      │ HIGH     │        │                   │ 2.4.0          │ python-jwt: Key confusion through non-blocklisted public key │
+│                     │                     │          │        │                   │                │ formats                                                      │
+│                     │                     │          │        │                   │                │ https://avd.aquasec.com/nvd/cve-2022-29217                   │
+│                     ├─────────────────────┤          │        │                   ├────────────────┼──────────────────────────────────────────────────────────────┤
+│                     │ CVE-2026-102267     │          │        │                   │ 2.14.0         │ pyjwt: pyjwt: Verification key substitution via unvalidated  │
+│                     │                     │          │        │                   │                │ JWKS redirects                                               │
+│                     │                     │          │        │                   │                │ https://avd.aquasec.com/nvd/cve-2026-102267                  │
+│                     ├─────────────────────┤          │        │                   ├────────────────┼──────────────────────────────────────────────────────────────┤
+│                     │ CVE-2026-32597      │          │        │                   │ 2.12.0         │ pyjwt: PyJWT accepts unknown `crit` header extensions (RFC   │
+│                     │                     │          │        │                   │                │ 7515 §4.1.11 MUST violation)...                              │
+│                     │                     │          │        │                   │                │ https://avd.aquasec.com/nvd/cve-2026-32597                   │
+│                     ├─────────────────────┤          │        │                   ├────────────────┼──────────────────────────────────────────────────────────────┤
+│                     │ CVE-2026-48526      │          │        │                   │ 2.13.0         │ python-pyjwt: PyJWT: Authentication bypass due to forged     │
+│                     │                     │          │        │                   │                │ JSON Web Tokens                                              │
+│                     │                     │          │        │                   │                │ https://avd.aquasec.com/nvd/cve-2026-48526                   │
+│                     ├─────────────────────┤          │        │                   ├────────────────┼──────────────────────────────────────────────────────────────┤
+│                     │ GHSA-pxh4-856f-4h89 │          │        │                   │ 2.14.0         │ PyJWT: HS256/384/512 verify accepts empty HMAC key via oct   │
+│                     │                     │          │        │                   │                │ JWK (PyJWK/PyJWKClient) enabling...                          │
+│                     │                     │          │        │                   │                │ https://github.com/advisories/GHSA-pxh4-856f-4h89            │
+├─────────────────────┼─────────────────────┤          │        ├───────────────────┼────────────────┼──────────────────────────────────────────────────────────────┤
+│ Werkzeug (METADATA) │ CVE-2023-25577      │          │        │ 2.0.1             │ 2.2.3          │ python-werkzeug: high resource usage when parsing multipart  │
+│                     │                     │          │        │                   │                │ form data with many fields...                                │
+│                     │                     │          │        │                   │                │ https://avd.aquasec.com/nvd/cve-2023-25577                   │
+│                     ├─────────────────────┤          │        │                   ├────────────────┼──────────────────────────────────────────────────────────────┤
+│                     │ CVE-2024-34069      │          │        │                   │ 3.0.3          │ python-werkzeug: user may execute code on a developer's      │
+│                     │                     │          │        │                   │                │ machine                                                      │
+│                     │                     │          │        │                   │                │ https://avd.aquasec.com/nvd/cve-2024-34069                   │
+├─────────────────────┼─────────────────────┤          │        ├───────────────────┼────────────────┼──────────────────────────────────────────────────────────────┤
+│ urllib3 (METADATA)  │ CVE-2021-33503      │          │        │ 1.26.4            │ 1.26.5         │ python-urllib3: ReDoS in the parsing of authority part of    │
+│                     │                     │          │        │                   │                │ URL                                                          │
+│                     │                     │          │        │                   │                │ https://avd.aquasec.com/nvd/cve-2021-33503                   │
+│                     ├─────────────────────┤          │        │                   ├────────────────┼──────────────────────────────────────────────────────────────┤
+│                     │ CVE-2023-43804      │          │        │                   │ 2.0.6, 1.26.17 │ python-urllib3: Cookie request header isn't stripped during  │
+│                     │                     │          │        │                   │                │ cross-origin redirects                                       │
+│                     │                     │          │        │                   │                │ https://avd.aquasec.com/nvd/cve-2023-43804                   │
+│                     ├─────────────────────┤          │        │                   ├────────────────┼──────────────────────────────────────────────────────────────┤
+│                     │ CVE-2025-66418      │          │        │                   │ 2.6.0          │ urllib3: urllib3: Unbounded decompression chain leads to     │
+│                     │                     │          │        │                   │                │ resource exhaustion                                          │
+│                     │                     │          │        │                   │                │ https://avd.aquasec.com/nvd/cve-2025-66418                   │
+│                     ├─────────────────────┤          │        │                   │                ├──────────────────────────────────────────────────────────────┤
+│                     │ CVE-2025-66471      │          │        │                   │                │ urllib3: urllib3 Streaming API improperly handles highly     │
+│                     │                     │          │        │                   │                │ compressed data                                              │
+│                     │                     │          │        │                   │                │ https://avd.aquasec.com/nvd/cve-2025-66471                   │
+│                     ├─────────────────────┤          │        │                   ├────────────────┼──────────────────────────────────────────────────────────────┤
+│                     │ CVE-2026-21441      │          │        │                   │ 2.6.3          │ urllib3: urllib3 vulnerable to decompression-bomb safeguard  │
+│                     │                     │          │        │                   │                │ bypass when following HTTP redirects (streaming...           │
+│                     │                     │          │        │                   │                │ https://avd.aquasec.com/nvd/cve-2026-21441                   │
+│                     ├─────────────────────┤          │        │                   ├────────────────┼──────────────────────────────────────────────────────────────┤
+│                     │ CVE-2026-44431      │          │        │                   │ 2.7.0          │ urllib3: urllib3: Information disclosure via cross-origin    │
+│                     │                     │          │        │                   │                │ redirects forwarding sensitive headers                       │
+│                     │                     │          │        │                   │                │ https://avd.aquasec.com/nvd/cve-2026-44431                   │
+│                     ├─────────────────────┤          │        │                   ├────────────────┼──────────────────────────────────────────────────────────────┤
+│                     │ CVE-2026-97687      │          │        │                   │ 2.8.0          │ urllib3: urllib3: Traffic interception via HTTPS proxy TLS   │
+│                     │                     │          │        │                   │                │ configuration override                                       │
+│                     │                     │          │        │                   │                │ https://avd.aquasec.com/nvd/cve-2026-97687                   │
+│                     ├─────────────────────┤          │        │                   │                ├──────────────────────────────────────────────────────────────┤
+│                     │ CVE-2026-97689      │          │        │                   │                │ urllib3: urllib3: Denial of Service via unbounded memory     │
+│                     │                     │          │        │                   │                │ allocation in chunk parser...                                │
+│                     │                     │          │        │                   │                │ https://avd.aquasec.com/nvd/cve-2026-97689                   │
+└─────────────────────┴─────────────────────┴──────────┴────────┴───────────────────┴────────────────┴──────────────────────────────────────────────────────────────┘
