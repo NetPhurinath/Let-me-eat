@@ -6,6 +6,9 @@
 #   bash docs/demo.sh stop      stop everything
 cd "$(dirname "$0")/.." || exit 1
 docker() { MSYS_NO_PATHCONV=1 command docker "$@"; }   # keep Git Bash from rewriting container paths
+# turn a path into one the (native Windows) docker client accepts: Git Bash needs
+# cygpath; WSL and plain bash can pass the Linux path through unchanged.
+winpath() { if command -v cygpath >/dev/null 2>&1; then cygpath -w "$1"; else printf '%s' "$1"; fi; }
 BASELINE=8725faa
 COMPOSE="docker compose -f starter-app/docker-compose.yml"
 Y=$'\e[1;33m' B=$'\e[1;36m' G=$'\e[1;32m' R=$'\e[1;31m' N=$'\e[0m'
@@ -21,7 +24,7 @@ logs()  { if [ "$1" = 8081 ]; then docker logs nvbase 2>&1; else $COMPOSE logs -
 inapp() { local p=$1; shift; if [ "$p" = 8081 ]; then docker exec nvbase "$@"; else $COMPOSE exec -T notevault "$@"; fi; }
 label() { if [ "$1" = 8081 ]; then echo "${R}BEFORE — baseline app on :8081${N}"; else echo "${G}AFTER — fixed app on :8080${N}"; fi; }
 reset() { docker restart -t 1 nvbase >/dev/null; $COMPOSE restart -t 1 >/dev/null 2>&1; wait_up 8081; wait_up 8080; rm -f /tmp/jar808*; }
-unit()  { run "docker run --rm -v \"$(pwd -W)/starter-app:/src:ro\" -w /src notevault-tools python -m pytest -p no:cacheprovider -q -v tests -k '$1' 2>&1 | grep -E 'PASSED|FAILED|passed|failed'"; }
+unit()  { local src; src="$(winpath "$(pwd)")/starter-app"; run "docker run --rm -v \"$src:/src:ro\" -w /src notevault-tools python -m pytest -p no:cacheprovider -q -v tests -k '$1' 2>&1 | grep -E 'PASSED|FAILED|passed|failed'"; }
 
 setup() {
   docker info >/dev/null 2>&1 || { echo "Start Docker Desktop first."; exit 1; }
@@ -31,7 +34,7 @@ setup() {
   docker image inspect notevault-baseline >/dev/null 2>&1 || {
     rm -rf /tmp/nv-baseline && mkdir -p /tmp/nv-baseline
     git archive "$BASELINE" starter-app | tar -x -C /tmp/nv-baseline
-    docker build -q -t notevault-baseline "$(cygpath -w /tmp/nv-baseline/starter-app)"; }
+    docker build -q -t notevault-baseline "$(winpath /tmp/nv-baseline/starter-app)"; }
   docker rm -f nvbase >/dev/null 2>&1
   docker run -d --name nvbase -p 8081:8080 -e TEAM_ID="Let me eat" notevault-baseline >/dev/null
   step "test/audit image"
@@ -125,10 +128,12 @@ f15_ok() { run "login $1 admin admin123"; }
 
 f16_code() { echo "${B}starter-app/requirements.txt (baseline):${N}"; git show "$BASELINE:starter-app/requirements.txt"; echo; }
 f16() { if [ "$1" = 8081 ]; then
+          local src; src="$(winpath "$(pwd)")/starter-app"
           run "git show $BASELINE:starter-app/requirements.txt > /tmp/req-old.txt"
-          run "docker run --rm -v \"$(cygpath -w /tmp):/t\" notevault-tools pip-audit -r /t/req-old.txt --desc off 2>&1 | tail -4"
+          run "docker run --rm -v \"$(winpath /tmp):/t\" notevault-tools pip-audit -r /t/req-old.txt --desc off 2>&1 | tail -4"
         else
-          run "docker run --rm -v \"$(pwd -W)/starter-app:/s\" notevault-tools pip-audit -r /s/requirements.txt 2>&1 | tail -2"
+          local src; src="$(winpath "$(pwd)")/starter-app"
+          run "docker run --rm -v \"$src:/s\" notevault-tools pip-audit -r /s/requirements.txt 2>&1 | tail -2"
         fi; }
 
 f17_code() { code starter-app/Dockerfile 1 11; }
