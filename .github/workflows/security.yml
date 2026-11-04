@@ -40,7 +40,7 @@ jobs:
 
       - name: Generate Python SBOM
         run: |
-          cyclonedx-py -r -i requirements.lock --format json -o sbom-python.cdx.json
+          cyclonedx-py requirements requirements.lock -o sbom-python.cdx.json
 
       - name: Run Semgrep
         working-directory: .
