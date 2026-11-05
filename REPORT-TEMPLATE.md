@@ -11,6 +11,7 @@
 | Members (name + ID) | Gritthaphat Intaraprasit (6631503001) · Supichaya Rabiabnaweenurak (6631503118) · Andrew Dicesare (6631503050) · Phuriath Janjirahpoonpon (6631503033) |
 | Target application | NoteVault — team note-sharing web app + JSON API (Flask/SQLite) |
 | Repository URL | https://github.com/NetPhurinath/Let-me-eat |
+|Video link URL||
 | Date | 2026-11-04 |
 
 ## AI-tool usage disclosure
