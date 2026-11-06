@@ -774,6 +774,10 @@ caught real weaknesses in our own fixes, which is exactly what the viva will pro
 - Andrew Dicesare (6631503050) — threat discovery + patching (§4 findings, §5 remediation)
 - Phuriath Janjirahpoonpon (6631503033) — threat discovery + patching (§4, §5) + demo video
 
+**GitHub accounts:** Andrew Dicesare (6631503050) uses two GitHub accounts — commits are authored
+as **AnbrewTea** and pushed with **6631503050Andrew**. Both belong to Andrew, so commits shown under
+AnbrewTea in the repository history are his.
+
 ---
 
 ## Grading rubric (100)
