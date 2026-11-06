@@ -38,7 +38,7 @@ setup() {
   docker rm -f nvbase >/dev/null 2>&1
   docker run -d --name nvbase -p 8081:8080 -e TEAM_ID="Let me eat" notevault-baseline >/dev/null
   step "test/audit image"
-  printf 'FROM python:3.12-slim\nCOPY requirements.txt .\nRUN pip install -q -r requirements.txt pytest pip-audit\n' |
+  printf 'FROM python:3.12-slim\nCOPY requirements.lock .\nRUN pip install -q --require-hashes -r requirements.lock && pip install -q pytest pip-audit\n' |
     docker build -q -t notevault-tools -f - starter-app
   wait_up 8080; wait_up 8081
   echo "${G}Ready: baseline :8081, fixed :8080. Next: bash docs/demo.sh F-01${N}"
